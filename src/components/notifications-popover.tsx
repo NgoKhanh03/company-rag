@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   Bell,
   CheckCheck,
@@ -6,6 +7,7 @@ import {
   MessagesSquare,
   ShieldAlert,
   UserPlus,
+  Wallet,
 } from "lucide-react";
 
 import {
@@ -15,58 +17,67 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
+import { useT } from "@/lib/i18n";
 
-type Notification = {
+export type Notification = {
   id: string;
   icon: typeof Bell;
-  title: string;
-  body: string;
-  time: string;
+  titleKey: string;
+  bodyKey: string;
+  time: { key: string; vars?: Record<string, string | number> };
   unread: boolean;
   tone: "brand" | "warning" | "success" | "muted";
 };
 
-const initial: Notification[] = [
+export const initialNotifications: Notification[] = [
   {
     id: "1",
     icon: FileText,
-    title: "Tài liệu mới đã index xong",
-    body: "HR-Policy-v3.2.pdf đã sẵn sàng cho truy vấn RAG.",
-    time: "2 phút trước",
+    titleKey: "notif.n1.title",
+    bodyKey: "notif.n1.body",
+    time: { key: "time.min", vars: { n: 2 } },
     unread: true,
     tone: "brand",
   },
   {
     id: "2",
     icon: MessagesSquare,
-    title: "Lan Anh đã chia sẻ hội thoại",
-    body: '"Chính sách nghỉ phép 2026" — 3 câu hỏi mới.',
-    time: "15 phút trước",
+    titleKey: "notif.n2.title",
+    bodyKey: "notif.n2.body",
+    time: { key: "time.min", vars: { n: 15 } },
     unread: true,
     tone: "muted",
   },
   {
     id: "3",
     icon: ShieldAlert,
-    title: "Cảnh báo bảo mật",
-    body: "Phát hiện đăng nhập từ thiết bị mới tại Hà Nội.",
-    time: "1 giờ trước",
+    titleKey: "notif.n3.title",
+    bodyKey: "notif.n3.body",
+    time: { key: "time.hour", vars: { n: 1 } },
     unread: true,
     tone: "warning",
   },
   {
     id: "4",
     icon: UserPlus,
-    title: "Thành viên mới trong workspace",
-    body: "Nguyễn Thu Trang đã được thêm bởi Quản trị viên.",
-    time: "Hôm qua",
+    titleKey: "notif.n4.title",
+    bodyKey: "notif.n4.body",
+    time: { key: "time.yesterday" },
     unread: false,
     tone: "success",
   },
+  {
+    id: "5",
+    icon: Wallet,
+    titleKey: "notif.n5.title",
+    bodyKey: "notif.n5.body",
+    time: { key: "time.days", vars: { n: 2 } },
+    unread: false,
+    tone: "warning",
+  },
 ];
 
-const toneClass: Record<Notification["tone"], string> = {
+export const toneClass: Record<Notification["tone"], string> = {
   brand: "bg-brand/15 text-brand",
   warning: "bg-warning/15 text-warning",
   success: "bg-success/15 text-success",
@@ -74,7 +85,8 @@ const toneClass: Record<Notification["tone"], string> = {
 };
 
 export function NotificationsPopover() {
-  const [items, setItems] = useState(initial);
+  const t = useT();
+  const [items, setItems] = useState(initialNotifications);
   const unread = items.filter((i) => i.unread).length;
 
   return (
@@ -92,9 +104,9 @@ export function NotificationsPopover() {
       <PopoverContent align="end" className="w-96 p-0">
         <div className="px-4 py-3 flex items-center justify-between border-b border-border">
           <div>
-            <div className="text-sm font-semibold">Thông báo</div>
+            <div className="text-sm font-semibold">{t("notif.title")}</div>
             <div className="text-xs text-muted-foreground">
-              Bạn có {unread} thông báo chưa đọc
+              {t("notif.unread", { n: unread })}
             </div>
           </div>
           <Button
@@ -106,12 +118,12 @@ export function NotificationsPopover() {
             }
           >
             <CheckCheck className="h-3.5 w-3.5" />
-            Đánh dấu đã đọc
+            {t("notif.mark_all")}
           </Button>
         </div>
         <ScrollArea className="max-h-96">
           <div className="divide-y divide-border">
-            {items.map((n) => {
+            {items.slice(0, 4).map((n) => {
               const Icon = n.icon;
               return (
                 <button
@@ -130,16 +142,18 @@ export function NotificationsPopover() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <div className="text-sm font-medium truncate">{n.title}</div>
+                      <div className="text-sm font-medium truncate">
+                        {t(n.titleKey)}
+                      </div>
                       {n.unread && (
                         <span className="h-2 w-2 rounded-full bg-brand shrink-0" />
                       )}
                     </div>
                     <div className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                      {n.body}
+                      {t(n.bodyKey)}
                     </div>
                     <div className="text-[11px] text-muted-foreground/70 mt-1">
-                      {n.time}
+                      {t(n.time.key, n.time.vars)}
                     </div>
                   </div>
                 </button>
@@ -148,15 +162,11 @@ export function NotificationsPopover() {
           </div>
         </ScrollArea>
         <div className="px-4 py-2 border-t border-border">
-          <Button variant="ghost" size="sm" className="w-full text-xs">
-            Xem tất cả thông báo
+          <Button asChild variant="ghost" size="sm" className="w-full text-xs">
+            <Link to="/notifications">{t("notif.view_all")}</Link>
           </Button>
         </div>
       </PopoverContent>
     </Popover>
   );
-}
-
-export function NotificationsBadgeCount() {
-  return <Badge variant="outline">demo</Badge>;
 }

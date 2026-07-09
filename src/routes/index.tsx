@@ -26,79 +26,77 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   component: DashboardPage,
 });
 
-const usageData = [
-  { day: "T2", queries: 142, ingested: 12 },
-  { day: "T3", queries: 189, ingested: 18 },
-  { day: "T4", queries: 231, ingested: 9 },
-  { day: "T5", queries: 274, ingested: 22 },
-  { day: "T6", queries: 318, ingested: 31 },
-  { day: "T7", queries: 96, ingested: 4 },
-  { day: "CN", queries: 62, ingested: 2 },
-];
-
-const topics = [
-  { name: "Chính sách nhân sự", value: 42 },
-  { name: "Quy trình kỹ thuật", value: 34 },
-  { name: "Hợp đồng & pháp lý", value: 28 },
-  { name: "Bảo mật & tuân thủ", value: 21 },
-  { name: "Onboarding", value: 17 },
-];
-
-const stats = [
-  {
-    label: "Câu hỏi hôm nay",
-    value: "318",
-    delta: "+12,4%",
-    icon: MessagesSquare,
-  },
-  { label: "Tài liệu đã index", value: "2.847", delta: "+31", icon: FileText },
-  { label: "Người dùng hoạt động", value: "184", delta: "+8", icon: Users },
-  { label: "Độ chính xác RAG", value: "94,2%", delta: "+1,8%", icon: Zap },
-];
-
-const recentChats = [
-  {
-    user: "Lan Anh",
-    q: "Chính sách nghỉ phép 2026 có gì thay đổi?",
-    doc: "HR-Policy-v3.2.pdf",
-    time: "2 phút trước",
-  },
-  {
-    user: "Quang Huy",
-    q: "SLA hỗ trợ khách hàng doanh nghiệp là bao nhiêu?",
-    doc: "Support-Playbook.md",
-    time: "9 phút trước",
-  },
-  {
-    user: "Thu Trang",
-    q: "Quy trình duyệt chi trên 50 triệu?",
-    doc: "Finance-SOP.docx",
-    time: "22 phút trước",
-  },
-  {
-    user: "Minh Tú",
-    q: "Yêu cầu bảo mật cho tài liệu mật cấp 2?",
-    doc: "InfoSec-Standard.pdf",
-    time: "1 giờ trước",
-  },
-];
-
 function DashboardPage() {
+  const t = useT();
+
+  const usageData = [
+    { day: "M", queries: 142, ingested: 12 },
+    { day: "T", queries: 189, ingested: 18 },
+    { day: "W", queries: 231, ingested: 9 },
+    { day: "T", queries: 274, ingested: 22 },
+    { day: "F", queries: 318, ingested: 31 },
+    { day: "S", queries: 96, ingested: 4 },
+    { day: "S", queries: 62, ingested: 2 },
+  ];
+
+  const topics = [
+    { name: t("dash.topic.hr"), value: 42 },
+    { name: t("dash.topic.tech"), value: 34 },
+    { name: t("dash.topic.legal"), value: 28 },
+    { name: t("dash.topic.sec"), value: 21 },
+    { name: t("dash.topic.onboarding"), value: 17 },
+  ];
+
+  const stats = [
+    { label: t("dash.stat.queries"), value: "318", delta: "+12.4%", icon: MessagesSquare },
+    { label: t("dash.stat.docs"), value: "2,847", delta: "+31", icon: FileText },
+    { label: t("dash.stat.users"), value: "184", delta: "+8", icon: Users },
+    { label: t("dash.stat.accuracy"), value: "94.2%", delta: "+1.8%", icon: Zap },
+  ];
+
+  const recentChats = [
+    {
+      user: "Lan Anh",
+      q: t("notif.n2.body").replace(/["'—].*$/, "").trim() || "Q1",
+      doc: "HR-Policy-v3.2.pdf",
+      time: t("time.min", { n: 2 }),
+    },
+    {
+      user: "Quang Huy",
+      q: t("dash.topic.tech"),
+      doc: "Support-Playbook.md",
+      time: t("time.min", { n: 9 }),
+    },
+    {
+      user: "Thu Trang",
+      q: t("dash.topic.legal"),
+      doc: "Finance-SOP.docx",
+      time: t("time.min", { n: 22 }),
+    },
+    {
+      user: "Minh Tú",
+      q: t("dash.topic.sec"),
+      doc: "InfoSec-Standard.pdf",
+      time: t("time.hour", { n: 1 }),
+    },
+  ];
+
   return (
     <AppShell
-      title="Tổng quan"
-      subtitle="Hoạt động của trợ lý RAG trong 7 ngày qua"
+      title={t("dash.title")}
+      subtitle={t("dash.sub")}
       actions={
         <div className="flex gap-2">
-          <Button variant="outline">Xuất báo cáo</Button>
+          <Button variant="outline">{t("dash.export")}</Button>
           <UploadDocumentDialog>
             <Button>
-              Nạp tài liệu mới
+              {t("dash.ingest")}
               <ArrowUpRight className="ml-1 h-4 w-4" />
             </Button>
           </UploadDocumentDialog>
@@ -117,7 +115,7 @@ function DashboardPage() {
                   </div>
                   <div className="mt-1 text-xs text-success flex items-center gap-1">
                     <ArrowUpRight className="h-3 w-3" />
-                    {s.delta} so với tuần trước
+                    {s.delta} {t("dash.delta")}
                   </div>
                 </div>
                 <div className="h-10 w-10 rounded-lg bg-brand/15 text-brand flex items-center justify-center">
@@ -133,13 +131,13 @@ function DashboardPage() {
         <Card className="lg:col-span-2 bg-card border-border">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>Câu hỏi & tài liệu nạp mới</CardTitle>
+              <CardTitle>{t("dash.chart.title")}</CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Xu hướng 7 ngày · dữ liệu demo
+                {t("dash.chart.sub")}
               </p>
             </div>
             <Badge variant="outline" className="text-brand border-brand/40">
-              Realtime
+              {t("dash.realtime")}
             </Badge>
           </CardHeader>
           <CardContent className="h-72">
@@ -172,7 +170,7 @@ function DashboardPage() {
                   stroke="var(--brand)"
                   fill="url(#gQ)"
                   strokeWidth={2}
-                  name="Câu hỏi"
+                  name={t("dash.chart.queries")}
                 />
                 <Area
                   type="monotone"
@@ -180,7 +178,7 @@ function DashboardPage() {
                   stroke="var(--chart-2)"
                   fill="url(#gI)"
                   strokeWidth={2}
-                  name="Tài liệu mới"
+                  name={t("dash.chart.ingested")}
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -189,8 +187,8 @@ function DashboardPage() {
 
         <Card className="bg-card border-border">
           <CardHeader>
-            <CardTitle>Chủ đề được hỏi nhiều</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">Tuần này</p>
+            <CardTitle>{t("dash.topics.title")}</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">{t("dash.topics.sub")}</p>
           </CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
@@ -201,8 +199,8 @@ function DashboardPage() {
                   type="category"
                   dataKey="name"
                   stroke="var(--muted-foreground)"
-                  fontSize={12}
-                  width={130}
+                  fontSize={11}
+                  width={140}
                 />
                 <Tooltip
                   contentStyle={{
@@ -221,7 +219,7 @@ function DashboardPage() {
       <div className="mt-6 grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2 bg-card border-border">
           <CardHeader>
-            <CardTitle>Truy vấn gần đây</CardTitle>
+            <CardTitle>{t("dash.recent")}</CardTitle>
           </CardHeader>
           <CardContent className="divide-y divide-border">
             {recentChats.map((c, i) => (
@@ -235,7 +233,7 @@ function DashboardPage() {
                 <div className="min-w-0 flex-1">
                   <div className="text-sm font-medium truncate">{c.q}</div>
                   <div className="text-xs text-muted-foreground truncate">
-                    {c.user} · nguồn: {c.doc}
+                    {c.user} · {t("dash.recent.source")}: {c.doc}
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground flex items-center gap-1 shrink-0">
@@ -249,14 +247,14 @@ function DashboardPage() {
 
         <Card className="bg-card border-border">
           <CardHeader>
-            <CardTitle>Sức khỏe RAG</CardTitle>
+            <CardTitle>{t("dash.health")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-5">
             {[
-              { label: "Độ phủ tài liệu", value: 92 },
-              { label: "Chất lượng trích dẫn", value: 87 },
-              { label: "Phản hồi tích cực", value: 74 },
-              { label: "Trễ trung bình (< 2s)", value: 96 },
+              { label: t("dash.health.coverage"), value: 92 },
+              { label: t("dash.health.cite"), value: 87 },
+              { label: t("dash.health.positive"), value: 74 },
+              { label: t("dash.health.latency"), value: 96 },
             ].map((m) => (
               <div key={m.label}>
                 <div className="flex items-center justify-between text-sm mb-1.5">
@@ -268,7 +266,7 @@ function DashboardPage() {
             ))}
             <div className="pt-2 flex items-center gap-2 text-sm text-success">
               <CheckCircle2 className="h-4 w-4" />
-              Toàn bộ hệ thống hoạt động ổn định
+              {t("dash.health.ok")}
             </div>
           </CardContent>
         </Card>
