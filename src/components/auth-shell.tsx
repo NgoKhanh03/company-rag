@@ -15,7 +15,10 @@ export function AuthShell({
 }) {
   return (
     <div className="min-h-screen w-full bg-background text-foreground relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,hsl(var(--brand)/0.15),transparent_60%),radial-gradient(circle_at_80%_90%,hsl(var(--brand)/0.1),transparent_55%)] pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-brand/20 blur-3xl" />
+        <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
+      </div>
       <div className="relative min-h-screen flex flex-col">
         <header className="flex items-center gap-2 px-6 py-5">
           <Link to="/" className="flex items-center gap-2">
