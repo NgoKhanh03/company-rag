@@ -12,7 +12,7 @@ import { StatusBadge } from "@/components/status-badge";
 import { BackupDialog } from "@/components/backup-dialog";
 import { RestoreDialog } from "@/components/restore-dialog";
 
-export const Route = createFileRoute("/backup")({
+export const Route = createFileRoute("/backup/")({
   head: () => ({ meta: [{ title: "Backup & Restore — Novadoc" }] }),
   component: BackupDashboard,
 });

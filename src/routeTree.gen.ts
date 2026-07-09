@@ -9,18 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WorkspacesRouteImport } from './routes/workspaces'
-import { Route as UsersRouteImport } from './routes/users'
 import { Route as RolesRouteImport } from './routes/roles'
 import { Route as PermissionsRouteImport } from './routes/permissions'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DepartmentsRouteImport } from './routes/departments'
 import { Route as ChatRouteImport } from './routes/chat'
-import { Route as BackupRouteImport } from './routes/backup'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WorkspacesIndexRouteImport } from './routes/workspaces.index'
+import { Route as UsersIndexRouteImport } from './routes/users.index'
 import { Route as SettingsIndexRouteImport } from './routes/settings.index'
+import { Route as BackupIndexRouteImport } from './routes/backup.index'
 import { Route as WorkspacesWorkspaceIdRouteImport } from './routes/workspaces.$workspaceId'
 import { Route as UsersUserIdRouteImport } from './routes/users.$userId'
 import { Route as SettingsTrimmingRouteImport } from './routes/settings.trimming'
@@ -38,16 +38,6 @@ import { Route as BackupHistoryRouteImport } from './routes/backup.history'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 
-const WorkspacesRoute = WorkspacesRouteImport.update({
-  id: '/workspaces',
-  path: '/workspaces',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UsersRoute = UsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const RolesRoute = RolesRouteImport.update({
   id: '/roles',
   path: '/roles',
@@ -78,11 +68,6 @@ const ChatRoute = ChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BackupRoute = BackupRouteImport.update({
-  id: '/backup',
-  path: '/backup',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -93,20 +78,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkspacesIndexRoute = WorkspacesIndexRouteImport.update({
+  id: '/workspaces/',
+  path: '/workspaces/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersIndexRoute = UsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BackupIndexRoute = BackupIndexRouteImport.update({
+  id: '/backup/',
+  path: '/backup/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WorkspacesWorkspaceIdRoute = WorkspacesWorkspaceIdRouteImport.update({
-  id: '/$workspaceId',
-  path: '/$workspaceId',
-  getParentRoute: () => WorkspacesRoute,
+  id: '/workspaces/$workspaceId',
+  path: '/workspaces/$workspaceId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const UsersUserIdRoute = UsersUserIdRouteImport.update({
-  id: '/$userId',
-  path: '/$userId',
-  getParentRoute: () => UsersRoute,
+  id: '/users/$userId',
+  path: '/users/$userId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsTrimmingRoute = SettingsTrimmingRouteImport.update({
   id: '/settings/trimming',
@@ -149,24 +149,24 @@ const MonitoringEventsRoute = MonitoringEventsRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const BackupTenantsRoute = BackupTenantsRouteImport.update({
-  id: '/tenants',
-  path: '/tenants',
-  getParentRoute: () => BackupRoute,
+  id: '/backup/tenants',
+  path: '/backup/tenants',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BackupSystemCheckRoute = BackupSystemCheckRouteImport.update({
-  id: '/system-check',
-  path: '/system-check',
-  getParentRoute: () => BackupRoute,
+  id: '/backup/system-check',
+  path: '/backup/system-check',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BackupS3Route = BackupS3RouteImport.update({
-  id: '/s3',
-  path: '/s3',
-  getParentRoute: () => BackupRoute,
+  id: '/backup/s3',
+  path: '/backup/s3',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BackupHistoryRoute = BackupHistoryRouteImport.update({
-  id: '/history',
-  path: '/history',
-  getParentRoute: () => BackupRoute,
+  id: '/backup/history',
+  path: '/backup/history',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
@@ -182,15 +182,12 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
-  '/backup': typeof BackupRouteWithChildren
   '/chat': typeof ChatRoute
   '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
   '/permissions': typeof PermissionsRoute
   '/roles': typeof RolesRoute
-  '/users': typeof UsersRouteWithChildren
-  '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/backup/history': typeof BackupHistoryRoute
@@ -207,20 +204,20 @@ export interface FileRoutesByFullPath {
   '/settings/trimming': typeof SettingsTrimmingRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/backup/': typeof BackupIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/users/': typeof UsersIndexRoute
+  '/workspaces/': typeof WorkspacesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
-  '/backup': typeof BackupRouteWithChildren
   '/chat': typeof ChatRoute
   '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
   '/permissions': typeof PermissionsRoute
   '/roles': typeof RolesRoute
-  '/users': typeof UsersRouteWithChildren
-  '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/backup/history': typeof BackupHistoryRoute
@@ -237,21 +234,21 @@ export interface FileRoutesByTo {
   '/settings/trimming': typeof SettingsTrimmingRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/backup': typeof BackupIndexRoute
   '/settings': typeof SettingsIndexRoute
+  '/users': typeof UsersIndexRoute
+  '/workspaces': typeof WorkspacesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
-  '/backup': typeof BackupRouteWithChildren
   '/chat': typeof ChatRoute
   '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
   '/permissions': typeof PermissionsRoute
   '/roles': typeof RolesRoute
-  '/users': typeof UsersRouteWithChildren
-  '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/backup/history': typeof BackupHistoryRoute
@@ -268,22 +265,22 @@ export interface FileRoutesById {
   '/settings/trimming': typeof SettingsTrimmingRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/backup/': typeof BackupIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/users/': typeof UsersIndexRoute
+  '/workspaces/': typeof WorkspacesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/analytics'
-    | '/backup'
     | '/chat'
     | '/departments'
     | '/documents'
     | '/notifications'
     | '/permissions'
     | '/roles'
-    | '/users'
-    | '/workspaces'
     | '/auth/login'
     | '/auth/register'
     | '/backup/history'
@@ -300,20 +297,20 @@ export interface FileRouteTypes {
     | '/settings/trimming'
     | '/users/$userId'
     | '/workspaces/$workspaceId'
+    | '/backup/'
     | '/settings/'
+    | '/users/'
+    | '/workspaces/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/analytics'
-    | '/backup'
     | '/chat'
     | '/departments'
     | '/documents'
     | '/notifications'
     | '/permissions'
     | '/roles'
-    | '/users'
-    | '/workspaces'
     | '/auth/login'
     | '/auth/register'
     | '/backup/history'
@@ -330,20 +327,20 @@ export interface FileRouteTypes {
     | '/settings/trimming'
     | '/users/$userId'
     | '/workspaces/$workspaceId'
+    | '/backup'
     | '/settings'
+    | '/users'
+    | '/workspaces'
   id:
     | '__root__'
     | '/'
     | '/analytics'
-    | '/backup'
     | '/chat'
     | '/departments'
     | '/documents'
     | '/notifications'
     | '/permissions'
     | '/roles'
-    | '/users'
-    | '/workspaces'
     | '/auth/login'
     | '/auth/register'
     | '/backup/history'
@@ -360,23 +357,27 @@ export interface FileRouteTypes {
     | '/settings/trimming'
     | '/users/$userId'
     | '/workspaces/$workspaceId'
+    | '/backup/'
     | '/settings/'
+    | '/users/'
+    | '/workspaces/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
-  BackupRoute: typeof BackupRouteWithChildren
   ChatRoute: typeof ChatRoute
   DepartmentsRoute: typeof DepartmentsRoute
   DocumentsRoute: typeof DocumentsRoute
   NotificationsRoute: typeof NotificationsRoute
   PermissionsRoute: typeof PermissionsRoute
   RolesRoute: typeof RolesRoute
-  UsersRoute: typeof UsersRouteWithChildren
-  WorkspacesRoute: typeof WorkspacesRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  BackupHistoryRoute: typeof BackupHistoryRoute
+  BackupS3Route: typeof BackupS3Route
+  BackupSystemCheckRoute: typeof BackupSystemCheckRoute
+  BackupTenantsRoute: typeof BackupTenantsRoute
   MonitoringEventsRoute: typeof MonitoringEventsRoute
   MonitoringHealthRoute: typeof MonitoringHealthRoute
   SettingsAgentRoute: typeof SettingsAgentRoute
@@ -385,25 +386,16 @@ export interface RootRouteChildren {
   SettingsLlmRoute: typeof SettingsLlmRoute
   SettingsMemoryRoute: typeof SettingsMemoryRoute
   SettingsTrimmingRoute: typeof SettingsTrimmingRoute
+  UsersUserIdRoute: typeof UsersUserIdRoute
+  WorkspacesWorkspaceIdRoute: typeof WorkspacesWorkspaceIdRoute
+  BackupIndexRoute: typeof BackupIndexRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
+  UsersIndexRoute: typeof UsersIndexRoute
+  WorkspacesIndexRoute: typeof WorkspacesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/workspaces': {
-      id: '/workspaces'
-      path: '/workspaces'
-      fullPath: '/workspaces'
-      preLoaderRoute: typeof WorkspacesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/users': {
-      id: '/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof UsersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/roles': {
       id: '/roles'
       path: '/roles'
@@ -446,13 +438,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/backup': {
-      id: '/backup'
-      path: '/backup'
-      fullPath: '/backup'
-      preLoaderRoute: typeof BackupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/analytics': {
       id: '/analytics'
       path: '/analytics'
@@ -467,6 +452,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/workspaces/': {
+      id: '/workspaces/'
+      path: '/workspaces'
+      fullPath: '/workspaces/'
+      preLoaderRoute: typeof WorkspacesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users/': {
+      id: '/users/'
+      path: '/users'
+      fullPath: '/users/'
+      preLoaderRoute: typeof UsersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings/': {
       id: '/settings/'
       path: '/settings'
@@ -474,19 +473,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/backup/': {
+      id: '/backup/'
+      path: '/backup'
+      fullPath: '/backup/'
+      preLoaderRoute: typeof BackupIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/workspaces/$workspaceId': {
       id: '/workspaces/$workspaceId'
-      path: '/$workspaceId'
+      path: '/workspaces/$workspaceId'
       fullPath: '/workspaces/$workspaceId'
       preLoaderRoute: typeof WorkspacesWorkspaceIdRouteImport
-      parentRoute: typeof WorkspacesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/users/$userId': {
       id: '/users/$userId'
-      path: '/$userId'
+      path: '/users/$userId'
       fullPath: '/users/$userId'
       preLoaderRoute: typeof UsersUserIdRouteImport
-      parentRoute: typeof UsersRoute
+      parentRoute: typeof rootRouteImport
     }
     '/settings/trimming': {
       id: '/settings/trimming'
@@ -546,31 +552,31 @@ declare module '@tanstack/react-router' {
     }
     '/backup/tenants': {
       id: '/backup/tenants'
-      path: '/tenants'
+      path: '/backup/tenants'
       fullPath: '/backup/tenants'
       preLoaderRoute: typeof BackupTenantsRouteImport
-      parentRoute: typeof BackupRoute
+      parentRoute: typeof rootRouteImport
     }
     '/backup/system-check': {
       id: '/backup/system-check'
-      path: '/system-check'
+      path: '/backup/system-check'
       fullPath: '/backup/system-check'
       preLoaderRoute: typeof BackupSystemCheckRouteImport
-      parentRoute: typeof BackupRoute
+      parentRoute: typeof rootRouteImport
     }
     '/backup/s3': {
       id: '/backup/s3'
-      path: '/s3'
+      path: '/backup/s3'
       fullPath: '/backup/s3'
       preLoaderRoute: typeof BackupS3RouteImport
-      parentRoute: typeof BackupRoute
+      parentRoute: typeof rootRouteImport
     }
     '/backup/history': {
       id: '/backup/history'
-      path: '/history'
+      path: '/backup/history'
       fullPath: '/backup/history'
       preLoaderRoute: typeof BackupHistoryRouteImport
-      parentRoute: typeof BackupRoute
+      parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
       id: '/auth/register'
@@ -589,59 +595,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface BackupRouteChildren {
-  BackupHistoryRoute: typeof BackupHistoryRoute
-  BackupS3Route: typeof BackupS3Route
-  BackupSystemCheckRoute: typeof BackupSystemCheckRoute
-  BackupTenantsRoute: typeof BackupTenantsRoute
-}
-
-const BackupRouteChildren: BackupRouteChildren = {
-  BackupHistoryRoute: BackupHistoryRoute,
-  BackupS3Route: BackupS3Route,
-  BackupSystemCheckRoute: BackupSystemCheckRoute,
-  BackupTenantsRoute: BackupTenantsRoute,
-}
-
-const BackupRouteWithChildren =
-  BackupRoute._addFileChildren(BackupRouteChildren)
-
-interface UsersRouteChildren {
-  UsersUserIdRoute: typeof UsersUserIdRoute
-}
-
-const UsersRouteChildren: UsersRouteChildren = {
-  UsersUserIdRoute: UsersUserIdRoute,
-}
-
-const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
-
-interface WorkspacesRouteChildren {
-  WorkspacesWorkspaceIdRoute: typeof WorkspacesWorkspaceIdRoute
-}
-
-const WorkspacesRouteChildren: WorkspacesRouteChildren = {
-  WorkspacesWorkspaceIdRoute: WorkspacesWorkspaceIdRoute,
-}
-
-const WorkspacesRouteWithChildren = WorkspacesRoute._addFileChildren(
-  WorkspacesRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
-  BackupRoute: BackupRouteWithChildren,
   ChatRoute: ChatRoute,
   DepartmentsRoute: DepartmentsRoute,
   DocumentsRoute: DocumentsRoute,
   NotificationsRoute: NotificationsRoute,
   PermissionsRoute: PermissionsRoute,
   RolesRoute: RolesRoute,
-  UsersRoute: UsersRouteWithChildren,
-  WorkspacesRoute: WorkspacesRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  BackupHistoryRoute: BackupHistoryRoute,
+  BackupS3Route: BackupS3Route,
+  BackupSystemCheckRoute: BackupSystemCheckRoute,
+  BackupTenantsRoute: BackupTenantsRoute,
   MonitoringEventsRoute: MonitoringEventsRoute,
   MonitoringHealthRoute: MonitoringHealthRoute,
   SettingsAgentRoute: SettingsAgentRoute,
@@ -650,7 +618,12 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsLlmRoute: SettingsLlmRoute,
   SettingsMemoryRoute: SettingsMemoryRoute,
   SettingsTrimmingRoute: SettingsTrimmingRoute,
+  UsersUserIdRoute: UsersUserIdRoute,
+  WorkspacesWorkspaceIdRoute: WorkspacesWorkspaceIdRoute,
+  BackupIndexRoute: BackupIndexRoute,
   SettingsIndexRoute: SettingsIndexRoute,
+  UsersIndexRoute: UsersIndexRoute,
+  WorkspacesIndexRoute: WorkspacesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

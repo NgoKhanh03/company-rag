@@ -12,7 +12,7 @@ import {
 import { StatusBadge } from "@/components/status-badge";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/workspaces")({
+export const Route = createFileRoute("/workspaces/")({
   head: () => ({ meta: [{ title: "Workspace — Novadoc" }] }),
   component: WsPage,
 });

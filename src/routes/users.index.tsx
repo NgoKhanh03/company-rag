@@ -21,7 +21,7 @@ import { StatCard } from "@/components/stat-card";
 import { EmptyState } from "@/components/empty-state";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/users")({
+export const Route = createFileRoute("/users/")({
   head: () => ({ meta: [{ title: "Quản lý người dùng — Novadoc" }] }),
   component: UsersPage,
 });
