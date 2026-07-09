@@ -8,7 +8,17 @@ import {
   ExternalLink,
   BookOpen,
   MessageSquare,
+  Copy,
+  RefreshCw,
+  ThumbsUp,
+  ThumbsDown,
+  Volume2,
+  Paperclip,
+  Mic,
+  Trash2,
+  Share2,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
@@ -16,6 +26,12 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/chat")({
