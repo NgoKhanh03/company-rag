@@ -17,6 +17,7 @@ import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DepartmentsRouteImport } from './routes/departments'
 import { Route as ChatRouteImport } from './routes/chat'
+import { Route as BackupRouteImport } from './routes/backup'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings.index'
@@ -30,6 +31,10 @@ import { Route as SettingsCompressionRouteImport } from './routes/settings.compr
 import { Route as SettingsAgentRouteImport } from './routes/settings.agent'
 import { Route as MonitoringHealthRouteImport } from './routes/monitoring.health'
 import { Route as MonitoringEventsRouteImport } from './routes/monitoring.events'
+import { Route as BackupTenantsRouteImport } from './routes/backup.tenants'
+import { Route as BackupSystemCheckRouteImport } from './routes/backup.system-check'
+import { Route as BackupS3RouteImport } from './routes/backup.s3'
+import { Route as BackupHistoryRouteImport } from './routes/backup.history'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 
@@ -71,6 +76,11 @@ const DepartmentsRoute = DepartmentsRouteImport.update({
 const ChatRoute = ChatRouteImport.update({
   id: '/chat',
   path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BackupRoute = BackupRouteImport.update({
+  id: '/backup',
+  path: '/backup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -138,6 +148,26 @@ const MonitoringEventsRoute = MonitoringEventsRouteImport.update({
   path: '/monitoring/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BackupTenantsRoute = BackupTenantsRouteImport.update({
+  id: '/tenants',
+  path: '/tenants',
+  getParentRoute: () => BackupRoute,
+} as any)
+const BackupSystemCheckRoute = BackupSystemCheckRouteImport.update({
+  id: '/system-check',
+  path: '/system-check',
+  getParentRoute: () => BackupRoute,
+} as any)
+const BackupS3Route = BackupS3RouteImport.update({
+  id: '/s3',
+  path: '/s3',
+  getParentRoute: () => BackupRoute,
+} as any)
+const BackupHistoryRoute = BackupHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => BackupRoute,
+} as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
   path: '/auth/register',
@@ -152,6 +182,7 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/backup': typeof BackupRouteWithChildren
   '/chat': typeof ChatRoute
   '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
@@ -162,6 +193,10 @@ export interface FileRoutesByFullPath {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/backup/history': typeof BackupHistoryRoute
+  '/backup/s3': typeof BackupS3Route
+  '/backup/system-check': typeof BackupSystemCheckRoute
+  '/backup/tenants': typeof BackupTenantsRoute
   '/monitoring/events': typeof MonitoringEventsRoute
   '/monitoring/health': typeof MonitoringHealthRoute
   '/settings/agent': typeof SettingsAgentRoute
@@ -177,6 +212,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/backup': typeof BackupRouteWithChildren
   '/chat': typeof ChatRoute
   '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
@@ -187,6 +223,10 @@ export interface FileRoutesByTo {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/backup/history': typeof BackupHistoryRoute
+  '/backup/s3': typeof BackupS3Route
+  '/backup/system-check': typeof BackupSystemCheckRoute
+  '/backup/tenants': typeof BackupTenantsRoute
   '/monitoring/events': typeof MonitoringEventsRoute
   '/monitoring/health': typeof MonitoringHealthRoute
   '/settings/agent': typeof SettingsAgentRoute
@@ -203,6 +243,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/backup': typeof BackupRouteWithChildren
   '/chat': typeof ChatRoute
   '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
@@ -213,6 +254,10 @@ export interface FileRoutesById {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/backup/history': typeof BackupHistoryRoute
+  '/backup/s3': typeof BackupS3Route
+  '/backup/system-check': typeof BackupSystemCheckRoute
+  '/backup/tenants': typeof BackupTenantsRoute
   '/monitoring/events': typeof MonitoringEventsRoute
   '/monitoring/health': typeof MonitoringHealthRoute
   '/settings/agent': typeof SettingsAgentRoute
@@ -230,6 +275,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analytics'
+    | '/backup'
     | '/chat'
     | '/departments'
     | '/documents'
@@ -240,6 +286,10 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/backup/history'
+    | '/backup/s3'
+    | '/backup/system-check'
+    | '/backup/tenants'
     | '/monitoring/events'
     | '/monitoring/health'
     | '/settings/agent'
@@ -255,6 +305,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/analytics'
+    | '/backup'
     | '/chat'
     | '/departments'
     | '/documents'
@@ -265,6 +316,10 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/backup/history'
+    | '/backup/s3'
+    | '/backup/system-check'
+    | '/backup/tenants'
     | '/monitoring/events'
     | '/monitoring/health'
     | '/settings/agent'
@@ -280,6 +335,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/analytics'
+    | '/backup'
     | '/chat'
     | '/departments'
     | '/documents'
@@ -290,6 +346,10 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/backup/history'
+    | '/backup/s3'
+    | '/backup/system-check'
+    | '/backup/tenants'
     | '/monitoring/events'
     | '/monitoring/health'
     | '/settings/agent'
@@ -306,6 +366,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  BackupRoute: typeof BackupRouteWithChildren
   ChatRoute: typeof ChatRoute
   DepartmentsRoute: typeof DepartmentsRoute
   DocumentsRoute: typeof DocumentsRoute
@@ -383,6 +444,13 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/chat'
       preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backup': {
+      id: '/backup'
+      path: '/backup'
+      fullPath: '/backup'
+      preLoaderRoute: typeof BackupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -476,6 +544,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MonitoringEventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/backup/tenants': {
+      id: '/backup/tenants'
+      path: '/tenants'
+      fullPath: '/backup/tenants'
+      preLoaderRoute: typeof BackupTenantsRouteImport
+      parentRoute: typeof BackupRoute
+    }
+    '/backup/system-check': {
+      id: '/backup/system-check'
+      path: '/system-check'
+      fullPath: '/backup/system-check'
+      preLoaderRoute: typeof BackupSystemCheckRouteImport
+      parentRoute: typeof BackupRoute
+    }
+    '/backup/s3': {
+      id: '/backup/s3'
+      path: '/s3'
+      fullPath: '/backup/s3'
+      preLoaderRoute: typeof BackupS3RouteImport
+      parentRoute: typeof BackupRoute
+    }
+    '/backup/history': {
+      id: '/backup/history'
+      path: '/history'
+      fullPath: '/backup/history'
+      preLoaderRoute: typeof BackupHistoryRouteImport
+      parentRoute: typeof BackupRoute
+    }
     '/auth/register': {
       id: '/auth/register'
       path: '/auth/register'
@@ -492,6 +588,23 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface BackupRouteChildren {
+  BackupHistoryRoute: typeof BackupHistoryRoute
+  BackupS3Route: typeof BackupS3Route
+  BackupSystemCheckRoute: typeof BackupSystemCheckRoute
+  BackupTenantsRoute: typeof BackupTenantsRoute
+}
+
+const BackupRouteChildren: BackupRouteChildren = {
+  BackupHistoryRoute: BackupHistoryRoute,
+  BackupS3Route: BackupS3Route,
+  BackupSystemCheckRoute: BackupSystemCheckRoute,
+  BackupTenantsRoute: BackupTenantsRoute,
+}
+
+const BackupRouteWithChildren =
+  BackupRoute._addFileChildren(BackupRouteChildren)
 
 interface UsersRouteChildren {
   UsersUserIdRoute: typeof UsersUserIdRoute
@@ -518,6 +631,7 @@ const WorkspacesRouteWithChildren = WorkspacesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
+  BackupRoute: BackupRouteWithChildren,
   ChatRoute: ChatRoute,
   DepartmentsRoute: DepartmentsRoute,
   DocumentsRoute: DocumentsRoute,

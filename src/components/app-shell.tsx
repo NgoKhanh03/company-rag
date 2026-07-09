@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Input } from "@/components/ui/input";
 import { NotificationsPopover } from "@/components/notifications-popover";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { WorkspaceSwitcher } from "@/components/workspace-switcher";
 import { Separator } from "@/components/ui/separator";
 import { useT } from "@/lib/i18n";
 
