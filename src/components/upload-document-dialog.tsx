@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
+import { useT } from "@/lib/i18n";
 
 type PickedFile = {
   id: string;
@@ -48,6 +49,7 @@ export function UploadDocumentDialog({
 }: {
   children?: ReactNode;
 }) {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState<PickedFile[]>([]);
   const [category, setCategory] = useState("hr");
@@ -75,7 +77,7 @@ export function UploadDocumentDialog({
     );
     files.forEach((file) => {
       let p = 0;
-      const t = setInterval(() => {
+      const timer = setInterval(() => {
         p += 8 + Math.random() * 14;
         setFiles((prev) =>
           prev.map((f) =>
@@ -88,7 +90,7 @@ export function UploadDocumentDialog({
               : f,
           ),
         );
-        if (p >= 100) clearInterval(t);
+        if (p >= 100) clearInterval(timer);
       }, 220);
     });
   };
@@ -109,55 +111,52 @@ export function UploadDocumentDialog({
         if (!v) reset();
       }}
     >
-      <DialogTrigger asChild>{children ?? <Button>Tải lên</Button>}</DialogTrigger>
+      <DialogTrigger asChild>{children ?? <Button>Upload</Button>}</DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <UploadCloud className="h-5 w-5 text-brand" />
-            Tải tài liệu lên thư viện RAG
+            {t("upload.title")}
           </DialogTitle>
-          <DialogDescription>
-            Hỗ trợ PDF, DOCX, MD, TXT, XLSX. Tài liệu sẽ được chia đoạn và index
-            tự động sau khi tải lên.
-          </DialogDescription>
+          <DialogDescription>{t("upload.desc")}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label className="text-xs">Danh mục</Label>
+              <Label className="text-xs">{t("upload.category")}</Label>
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="hr">Nhân sự</SelectItem>
-                  <SelectItem value="tech">Kỹ thuật</SelectItem>
-                  <SelectItem value="finance">Tài chính</SelectItem>
-                  <SelectItem value="security">Bảo mật</SelectItem>
-                  <SelectItem value="ops">Vận hành</SelectItem>
-                  <SelectItem value="other">Khác</SelectItem>
+                  <SelectItem value="hr">{t("cat.hr")}</SelectItem>
+                  <SelectItem value="tech">{t("cat.tech")}</SelectItem>
+                  <SelectItem value="finance">{t("cat.finance")}</SelectItem>
+                  <SelectItem value="security">{t("cat.security")}</SelectItem>
+                  <SelectItem value="ops">{t("cat.ops")}</SelectItem>
+                  <SelectItem value="other">{t("cat.other")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs">Mức truy cập</Label>
+              <Label className="text-xs">{t("upload.access")}</Label>
               <Select defaultValue="team">
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="private">Chỉ tôi</SelectItem>
-                  <SelectItem value="team">Nhóm</SelectItem>
-                  <SelectItem value="workspace">Toàn workspace</SelectItem>
+                  <SelectItem value="private">{t("access.private")}</SelectItem>
+                  <SelectItem value="team">{t("access.team")}</SelectItem>
+                  <SelectItem value="workspace">{t("access.workspace")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-xs">Nhãn (tuỳ chọn)</Label>
-            <Input placeholder="vd: 2026, chính sách, onboarding" />
+            <Label className="text-xs">{t("upload.tags")}</Label>
+            <Input placeholder={t("upload.tags_ph")} />
           </div>
 
           <div
@@ -187,9 +186,9 @@ export function UploadDocumentDialog({
             <div className="mx-auto h-10 w-10 rounded-full bg-brand/15 text-brand flex items-center justify-center mb-3">
               <UploadCloud className="h-5 w-5" />
             </div>
-            <div className="text-sm font-medium">Kéo thả file vào đây</div>
+            <div className="text-sm font-medium">{t("upload.drag")}</div>
             <div className="text-xs text-muted-foreground mt-1">
-              hoặc chọn từ thiết bị · tối đa 20MB / file
+              {t("upload.or_pick")}
             </div>
             <Button
               variant="outline"
@@ -198,7 +197,7 @@ export function UploadDocumentDialog({
               onClick={() => inputRef.current?.click()}
             >
               <FolderOpen className="h-3.5 w-3.5" />
-              Chọn tệp
+              {t("upload.browse")}
             </Button>
           </div>
 
@@ -247,7 +246,7 @@ export function UploadDocumentDialog({
 
         <DialogFooter className="gap-2">
           <Button variant="ghost" onClick={() => setOpen(false)}>
-            Huỷ
+            {t("upload.cancel")}
           </Button>
           {anyDone && !uploading ? (
             <Button
@@ -256,7 +255,7 @@ export function UploadDocumentDialog({
                 reset();
               }}
             >
-              Hoàn tất
+              {t("upload.done")}
             </Button>
           ) : (
             <Button
@@ -265,7 +264,7 @@ export function UploadDocumentDialog({
               className="gap-1.5"
             >
               <UploadCloud className="h-4 w-4" />
-              Tải lên & Index ({files.length})
+              {t("upload.submit", { n: files.length })}
             </Button>
           )}
         </DialogFooter>
