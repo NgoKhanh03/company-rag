@@ -108,9 +108,11 @@ function DocumentsPage() {
       title="Thư viện tài liệu"
       subtitle={`${docs.length} tài liệu · ${docs.reduce((n, d) => n + d.chunks, 0)} đoạn được index cho RAG`}
       actions={
-        <Button className="gap-1.5">
-          <Upload className="h-4 w-4" /> Tải tài liệu lên
-        </Button>
+        <UploadDocumentDialog>
+          <Button className="gap-1.5">
+            <Upload className="h-4 w-4" /> Tải tài liệu lên
+          </Button>
+        </UploadDocumentDialog>
       }
     >
       <div className="grid gap-4 md:grid-cols-4 mb-4">
