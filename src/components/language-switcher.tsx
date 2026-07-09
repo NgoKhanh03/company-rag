@@ -18,12 +18,18 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-1.5 px-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          aria-label={t("lang.label")}
+          className="h-9 gap-2 px-2.5 border-border bg-card hover:bg-accent"
+        >
+          <Globe className="h-4 w-4 text-muted-foreground" />
           <span className="text-base leading-none">{active.flag}</span>
-          <span className="hidden md:inline text-xs font-medium uppercase">
+          <span className="text-xs font-semibold uppercase tracking-wide">
             {active.code}
           </span>
-          <Globe className="h-3.5 w-3.5 text-muted-foreground md:hidden" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
