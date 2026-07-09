@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { NotificationsPopover } from "@/components/notifications-popover";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Separator } from "@/components/ui/separator";
+import { useT } from "@/lib/i18n";
 
 export function AppShell({
   title,
@@ -19,6 +20,7 @@ export function AppShell({
   actions?: ReactNode;
   children: ReactNode;
 }) {
+  const t = useT();
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -30,7 +32,7 @@ export function AppShell({
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Tìm nhanh tài liệu, cuộc trò chuyện..."
+                  placeholder={t("header.search")}
                   className="pl-9 bg-card border-border"
                 />
               </div>
