@@ -16,6 +16,7 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/chat")({
   component: ChatPage,
@@ -34,61 +35,63 @@ type Message = {
   sources?: Source[];
 };
 
-const seedMessages: Message[] = [
-  {
-    role: "user",
-    content: "Chính sách nghỉ phép năm 2026 có thay đổi gì so với năm ngoái?",
-  },
-  {
-    role: "assistant",
-    content:
-      "Theo tài liệu HR-Policy-v3.2 (hiệu lực 01/01/2026), có 3 thay đổi chính:\n\n1. **Ngày phép tăng từ 12 → 15 ngày/năm** cho nhân viên chính thức trên 1 năm.\n2. **Bổ sung 2 ngày phép “sức khỏe tinh thần”** không cần chứng từ y tế.\n3. Nhân viên có thể **chuyển tối đa 5 ngày phép chưa dùng** sang quý 1 năm sau (trước đây là 3 ngày).\n\nBạn có muốn tôi trích dẫn nguyên văn điều khoản không?",
-    sources: [
+function ChatPage() {
+  const t = useT();
+
+  const suggestions = [
+    t("dash.topic.legal"),
+    t("dash.topic.sec"),
+    t("dash.topic.onboarding"),
+    t("dash.topic.tech"),
+  ];
+
+  const conversations = [
+    { title: t("dash.topic.hr"), time: t("time.min", { n: 10 }), active: true },
+    { title: t("dash.topic.tech"), time: t("time.yesterday") },
+    { title: t("dash.topic.legal"), time: t("time.days", { n: 3 }) },
+    { title: t("dash.topic.sec"), time: t("time.week") },
+    { title: t("dash.topic.onboarding"), time: t("time.week") },
+  ];
+
+  const initial = useMemo<Message[]>(
+    () => [
       {
-        title: "HR-Policy-v3.2.pdf",
-        page: "Trang 14–15",
-        snippet:
-          "Điều 8.2 — Từ ngày 01/01/2026, số ngày phép năm được điều chỉnh từ 12 lên 15 ngày...",
-        score: 0.94,
+        role: "user",
+        content: t("dash.topic.hr") + "?",
       },
       {
-        title: "HR-Changelog-2026.md",
-        page: "Mục 3",
-        snippet:
-          "Bổ sung 2 ngày “mental health leave” không yêu cầu giấy khám bệnh, áp dụng...",
-        score: 0.88,
-      },
-      {
-        title: "HR-FAQ.docx",
-        page: "Câu 12",
-        snippet:
-          "Nhân viên có thể chuyển tối đa 5 ngày phép chưa sử dụng sang quý 1 của năm kế tiếp...",
-        score: 0.81,
+        role: "assistant",
+        content: t("dash.chart.sub"),
+        sources: [
+          {
+            title: "HR-Policy-v3.2.pdf",
+            page: `${t("chat.page")} 14–15`,
+            snippet:
+              "Điều 8.2 — Section 8.2 — 第8.2条 — Excerpt of the indexed passage retrieved by the vector search…",
+            score: 0.94,
+          },
+          {
+            title: "HR-FAQ.docx",
+            page: `${t("chat.page")} 12`,
+            snippet:
+              "Frequently asked question referencing the same policy update…",
+            score: 0.81,
+          },
+        ],
       },
     ],
-  },
-];
+    [t],
+  );
 
-const suggestions = [
-  "Quy trình duyệt chi trên 50 triệu?",
-  "SLA hỗ trợ khách hàng doanh nghiệp?",
-  "Yêu cầu bảo mật cho tài liệu mật cấp 2?",
-  "Onboarding kỹ sư mới trong 30 ngày đầu?",
-];
-
-const conversations = [
-  { title: "Chính sách nghỉ phép 2026", time: "Hôm nay", active: true },
-  { title: "SLA khách hàng Enterprise", time: "Hôm qua" },
-  { title: "Quy trình duyệt chi tài chính", time: "3 ngày trước" },
-  { title: "Bảo mật tài liệu cấp 2", time: "Tuần trước" },
-  { title: "Onboarding kỹ sư mới", time: "Tuần trước" },
-];
-
-function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>(seedMessages);
+  const [messages, setMessages] = useState<Message[]>(initial);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+
+  // Reseed the demo transcript whenever the language changes so users see localized bubbles.
+  useEffect(() => {
+    setMessages(initial);
+  }, [initial]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -112,21 +115,18 @@ function ChatPage() {
         ...m,
         {
           role: "assistant",
-          content:
-            "Đây là câu trả lời demo dựa trên tài liệu nội bộ. Trong bản triển khai thật, hệ thống RAG sẽ truy vấn thư viện, xếp hạng đoạn văn liên quan nhất và tổng hợp câu trả lời kèm trích dẫn nguồn.",
+          content: t("chat.disclaimer"),
           sources: [
             {
               title: "Company-Handbook.pdf",
-              page: "Trang 22",
-              snippet:
-                "Đoạn văn được truy xuất tự động theo mức độ tương đồng vector với câu hỏi...",
+              page: `${t("chat.page")} 22`,
+              snippet: "…",
               score: 0.89,
             },
             {
               title: "Internal-SOP.docx",
-              page: "Mục 4.1",
-              snippet:
-                "Quy trình chuẩn mô tả các bước xử lý, người chịu trách nhiệm và thời hạn...",
+              page: `${t("chat.page")} 4.1`,
+              snippet: "…",
               score: 0.82,
             },
           ],
@@ -138,19 +138,18 @@ function ChatPage() {
 
   return (
     <AppShell
-      title="Chat tài liệu"
-      subtitle="Hỏi bất cứ điều gì về thư viện tri thức của công ty"
+      title={t("chat.title")}
+      subtitle={t("chat.sub")}
       actions={
         <Button variant="outline">
-          <Plus className="mr-1 h-4 w-4" /> Cuộc trò chuyện mới
+          <Plus className="mr-1 h-4 w-4" /> {t("chat.new")}
         </Button>
       }
     >
       <div className="grid gap-4 lg:grid-cols-[240px_1fr_320px] h-[calc(100vh-14rem)]">
-        {/* Threads */}
         <Card className="bg-card border-border p-2 hidden lg:flex flex-col">
           <div className="px-2 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wide">
-            Lịch sử
+            {t("chat.history")}
           </div>
           <ScrollArea className="flex-1">
             <div className="space-y-1">
@@ -167,7 +166,7 @@ function ChatPage() {
                     <MessageSquare className="h-3.5 w-3.5 shrink-0" />
                     <span className="truncate">{c.title}</span>
                   </div>
-                  <div className="text-[11px] text-muted-foreground/70 mt-0.5 pl-5">
+                  <div className="text-[11px] text-muted-foreground/70 mt-0.5 ps-5">
                     {c.time}
                   </div>
                 </button>
@@ -176,7 +175,6 @@ function ChatPage() {
           </ScrollArea>
         </Card>
 
-        {/* Chat */}
         <Card className="bg-card border-border flex flex-col overflow-hidden">
           <ScrollArea className="flex-1 px-6 py-4">
             <div className="space-y-6 max-w-3xl mx-auto">
@@ -192,8 +190,8 @@ function ChatPage() {
                     <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground animate-pulse" />
                     <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground animate-pulse [animation-delay:150ms]" />
                     <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground animate-pulse [animation-delay:300ms]" />
-                    <span className="ml-2 text-xs text-muted-foreground">
-                      Đang tìm trong thư viện...
+                    <span className="ms-2 text-xs text-muted-foreground">
+                      {t("chat.thinking")}
                     </span>
                   </div>
                 </div>
@@ -227,32 +225,30 @@ function ChatPage() {
                       send();
                     }
                   }}
-                  placeholder="Hỏi về tài liệu, quy trình, chính sách..."
-                  className="min-h-[68px] resize-none bg-background border-border pr-14"
+                  placeholder={t("chat.input")}
+                  className="min-h-[68px] resize-none bg-background border-border pe-14"
                 />
                 <Button
                   size="icon"
                   onClick={() => send()}
                   disabled={!input.trim() || thinking}
-                  className="absolute right-2 bottom-2 h-9 w-9"
+                  className="absolute end-2 bottom-2 h-9 w-9"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
               <div className="mt-2 text-[11px] text-muted-foreground text-center">
-                Trợ lý chỉ trả lời dựa trên tài liệu được index trong không gian
-                làm việc của bạn.
+                {t("chat.disclaimer")}
               </div>
             </div>
           </div>
         </Card>
 
-        {/* Sources */}
         <Card className="bg-card border-border flex-col hidden lg:flex overflow-hidden">
           <div className="px-4 py-3 border-b border-border flex items-center gap-2">
             <BookOpen className="h-4 w-4 text-brand" />
-            <span className="text-sm font-medium">Nguồn trích dẫn</span>
-            <Badge variant="outline" className="ml-auto text-[10px]">
+            <span className="text-sm font-medium">{t("chat.sources")}</span>
+            <Badge variant="outline" className="ms-auto text-[10px]">
               {activeSources.length}
             </Badge>
           </div>
@@ -268,21 +264,21 @@ function ChatPage() {
                     <div className="min-w-0 flex-1">
                       <div className="text-sm font-medium truncate">{s.title}</div>
                       <div className="text-[11px] text-muted-foreground">
-                        {s.page} · độ khớp {Math.round(s.score * 100)}%
+                        {s.page} · {t("chat.match")} {Math.round(s.score * 100)}%
                       </div>
                     </div>
                     <button className="text-muted-foreground hover:text-foreground">
                       <ExternalLink className="h-3.5 w-3.5" />
                     </button>
                   </div>
-                  <p className="mt-2 text-xs text-muted-foreground line-clamp-3 border-l-2 border-brand/40 pl-2">
+                  <p className="mt-2 text-xs text-muted-foreground line-clamp-3 border-s-2 border-brand/40 ps-2">
                     {s.snippet}
                   </p>
                 </div>
               ))}
               {activeSources.length === 0 && (
                 <div className="text-xs text-muted-foreground text-center py-8">
-                  Chưa có nguồn nào được trích dẫn.
+                  {t("chat.no_source")}
                 </div>
               )}
             </div>
@@ -299,9 +295,7 @@ function MessageBubble({ message }: { message: Message }) {
     <div className={`flex gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
       <div
         className={`h-8 w-8 rounded-lg flex items-center justify-center shrink-0 ${
-          isUser
-            ? "bg-secondary text-foreground"
-            : "bg-brand/15 text-brand"
+          isUser ? "bg-secondary text-foreground" : "bg-brand/15 text-brand"
         }`}
       >
         {isUser ? "MT" : <Sparkles className="h-4 w-4" />}
@@ -324,7 +318,7 @@ function MessageBubble({ message }: { message: Message }) {
                 variant="outline"
                 className="text-[10px] font-normal border-border text-muted-foreground"
               >
-                <FileText className="h-3 w-3 mr-1" />
+                <FileText className="h-3 w-3 me-1" />
                 {s.title}
               </Badge>
             ))}
