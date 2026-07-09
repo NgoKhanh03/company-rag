@@ -21,6 +21,7 @@ import {
 } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
+import { UploadDocumentDialog } from "@/components/upload-document-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -95,10 +96,12 @@ function DashboardPage() {
       actions={
         <div className="flex gap-2">
           <Button variant="outline">Xuất báo cáo</Button>
-          <Button>
-            Nạp tài liệu mới
-            <ArrowUpRight className="ml-1 h-4 w-4" />
-          </Button>
+          <UploadDocumentDialog>
+            <Button>
+              Nạp tài liệu mới
+              <ArrowUpRight className="ml-1 h-4 w-4" />
+            </Button>
+          </UploadDocumentDialog>
         </div>
       }
     >
