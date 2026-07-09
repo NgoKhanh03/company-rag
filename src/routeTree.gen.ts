@@ -9,12 +9,45 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RolesRouteImport } from './routes/roles'
+import { Route as PermissionsRouteImport } from './routes/permissions'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as DepartmentsRouteImport } from './routes/departments'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WorkspacesIndexRouteImport } from './routes/workspaces.index'
+import { Route as UsersIndexRouteImport } from './routes/users.index'
+import { Route as SettingsIndexRouteImport } from './routes/settings.index'
+import { Route as BackupIndexRouteImport } from './routes/backup.index'
+import { Route as WorkspacesWorkspaceIdRouteImport } from './routes/workspaces.$workspaceId'
+import { Route as UsersUserIdRouteImport } from './routes/users.$userId'
+import { Route as SettingsTrimmingRouteImport } from './routes/settings.trimming'
+import { Route as SettingsMemoryRouteImport } from './routes/settings.memory'
+import { Route as SettingsLlmRouteImport } from './routes/settings.llm'
+import { Route as SettingsEmbeddingRouteImport } from './routes/settings.embedding'
+import { Route as SettingsCompressionRouteImport } from './routes/settings.compression'
+import { Route as SettingsAgentRouteImport } from './routes/settings.agent'
+import { Route as MonitoringHealthRouteImport } from './routes/monitoring.health'
+import { Route as MonitoringEventsRouteImport } from './routes/monitoring.events'
+import { Route as BackupTenantsRouteImport } from './routes/backup.tenants'
+import { Route as BackupSystemCheckRouteImport } from './routes/backup.system-check'
+import { Route as BackupS3RouteImport } from './routes/backup.s3'
+import { Route as BackupHistoryRouteImport } from './routes/backup.history'
+import { Route as AuthRegisterRouteImport } from './routes/auth.register'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
 
+const RolesRoute = RolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PermissionsRoute = PermissionsRouteImport.update({
+  id: '/permissions',
+  path: '/permissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
@@ -23,6 +56,11 @@ const NotificationsRoute = NotificationsRouteImport.update({
 const DocumentsRoute = DocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DepartmentsRoute = DepartmentsRouteImport.update({
+  id: '/departments',
+  path: '/departments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChatRoute = ChatRouteImport.update({
@@ -40,53 +78,338 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkspacesIndexRoute = WorkspacesIndexRouteImport.update({
+  id: '/workspaces/',
+  path: '/workspaces/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersIndexRoute = UsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BackupIndexRoute = BackupIndexRouteImport.update({
+  id: '/backup/',
+  path: '/backup/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkspacesWorkspaceIdRoute = WorkspacesWorkspaceIdRouteImport.update({
+  id: '/workspaces/$workspaceId',
+  path: '/workspaces/$workspaceId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersUserIdRoute = UsersUserIdRouteImport.update({
+  id: '/users/$userId',
+  path: '/users/$userId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsTrimmingRoute = SettingsTrimmingRouteImport.update({
+  id: '/settings/trimming',
+  path: '/settings/trimming',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsMemoryRoute = SettingsMemoryRouteImport.update({
+  id: '/settings/memory',
+  path: '/settings/memory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsLlmRoute = SettingsLlmRouteImport.update({
+  id: '/settings/llm',
+  path: '/settings/llm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsEmbeddingRoute = SettingsEmbeddingRouteImport.update({
+  id: '/settings/embedding',
+  path: '/settings/embedding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsCompressionRoute = SettingsCompressionRouteImport.update({
+  id: '/settings/compression',
+  path: '/settings/compression',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsAgentRoute = SettingsAgentRouteImport.update({
+  id: '/settings/agent',
+  path: '/settings/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MonitoringHealthRoute = MonitoringHealthRouteImport.update({
+  id: '/monitoring/health',
+  path: '/monitoring/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MonitoringEventsRoute = MonitoringEventsRouteImport.update({
+  id: '/monitoring/events',
+  path: '/monitoring/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BackupTenantsRoute = BackupTenantsRouteImport.update({
+  id: '/backup/tenants',
+  path: '/backup/tenants',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BackupSystemCheckRoute = BackupSystemCheckRouteImport.update({
+  id: '/backup/system-check',
+  path: '/backup/system-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BackupS3Route = BackupS3RouteImport.update({
+  id: '/backup/s3',
+  path: '/backup/s3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BackupHistoryRoute = BackupHistoryRouteImport.update({
+  id: '/backup/history',
+  path: '/backup/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/chat': typeof ChatRoute
+  '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/permissions': typeof PermissionsRoute
+  '/roles': typeof RolesRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/backup/history': typeof BackupHistoryRoute
+  '/backup/s3': typeof BackupS3Route
+  '/backup/system-check': typeof BackupSystemCheckRoute
+  '/backup/tenants': typeof BackupTenantsRoute
+  '/monitoring/events': typeof MonitoringEventsRoute
+  '/monitoring/health': typeof MonitoringHealthRoute
+  '/settings/agent': typeof SettingsAgentRoute
+  '/settings/compression': typeof SettingsCompressionRoute
+  '/settings/embedding': typeof SettingsEmbeddingRoute
+  '/settings/llm': typeof SettingsLlmRoute
+  '/settings/memory': typeof SettingsMemoryRoute
+  '/settings/trimming': typeof SettingsTrimmingRoute
+  '/users/$userId': typeof UsersUserIdRoute
+  '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/backup/': typeof BackupIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/users/': typeof UsersIndexRoute
+  '/workspaces/': typeof WorkspacesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/chat': typeof ChatRoute
+  '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/permissions': typeof PermissionsRoute
+  '/roles': typeof RolesRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/backup/history': typeof BackupHistoryRoute
+  '/backup/s3': typeof BackupS3Route
+  '/backup/system-check': typeof BackupSystemCheckRoute
+  '/backup/tenants': typeof BackupTenantsRoute
+  '/monitoring/events': typeof MonitoringEventsRoute
+  '/monitoring/health': typeof MonitoringHealthRoute
+  '/settings/agent': typeof SettingsAgentRoute
+  '/settings/compression': typeof SettingsCompressionRoute
+  '/settings/embedding': typeof SettingsEmbeddingRoute
+  '/settings/llm': typeof SettingsLlmRoute
+  '/settings/memory': typeof SettingsMemoryRoute
+  '/settings/trimming': typeof SettingsTrimmingRoute
+  '/users/$userId': typeof UsersUserIdRoute
+  '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/backup': typeof BackupIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/users': typeof UsersIndexRoute
+  '/workspaces': typeof WorkspacesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/chat': typeof ChatRoute
+  '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/permissions': typeof PermissionsRoute
+  '/roles': typeof RolesRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/backup/history': typeof BackupHistoryRoute
+  '/backup/s3': typeof BackupS3Route
+  '/backup/system-check': typeof BackupSystemCheckRoute
+  '/backup/tenants': typeof BackupTenantsRoute
+  '/monitoring/events': typeof MonitoringEventsRoute
+  '/monitoring/health': typeof MonitoringHealthRoute
+  '/settings/agent': typeof SettingsAgentRoute
+  '/settings/compression': typeof SettingsCompressionRoute
+  '/settings/embedding': typeof SettingsEmbeddingRoute
+  '/settings/llm': typeof SettingsLlmRoute
+  '/settings/memory': typeof SettingsMemoryRoute
+  '/settings/trimming': typeof SettingsTrimmingRoute
+  '/users/$userId': typeof UsersUserIdRoute
+  '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/backup/': typeof BackupIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/users/': typeof UsersIndexRoute
+  '/workspaces/': typeof WorkspacesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analytics' | '/chat' | '/documents' | '/notifications'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/chat'
+    | '/departments'
+    | '/documents'
+    | '/notifications'
+    | '/permissions'
+    | '/roles'
+    | '/auth/login'
+    | '/auth/register'
+    | '/backup/history'
+    | '/backup/s3'
+    | '/backup/system-check'
+    | '/backup/tenants'
+    | '/monitoring/events'
+    | '/monitoring/health'
+    | '/settings/agent'
+    | '/settings/compression'
+    | '/settings/embedding'
+    | '/settings/llm'
+    | '/settings/memory'
+    | '/settings/trimming'
+    | '/users/$userId'
+    | '/workspaces/$workspaceId'
+    | '/backup/'
+    | '/settings/'
+    | '/users/'
+    | '/workspaces/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analytics' | '/chat' | '/documents' | '/notifications'
+  to:
+    | '/'
+    | '/analytics'
+    | '/chat'
+    | '/departments'
+    | '/documents'
+    | '/notifications'
+    | '/permissions'
+    | '/roles'
+    | '/auth/login'
+    | '/auth/register'
+    | '/backup/history'
+    | '/backup/s3'
+    | '/backup/system-check'
+    | '/backup/tenants'
+    | '/monitoring/events'
+    | '/monitoring/health'
+    | '/settings/agent'
+    | '/settings/compression'
+    | '/settings/embedding'
+    | '/settings/llm'
+    | '/settings/memory'
+    | '/settings/trimming'
+    | '/users/$userId'
+    | '/workspaces/$workspaceId'
+    | '/backup'
+    | '/settings'
+    | '/users'
+    | '/workspaces'
   id:
     | '__root__'
     | '/'
     | '/analytics'
     | '/chat'
+    | '/departments'
     | '/documents'
     | '/notifications'
+    | '/permissions'
+    | '/roles'
+    | '/auth/login'
+    | '/auth/register'
+    | '/backup/history'
+    | '/backup/s3'
+    | '/backup/system-check'
+    | '/backup/tenants'
+    | '/monitoring/events'
+    | '/monitoring/health'
+    | '/settings/agent'
+    | '/settings/compression'
+    | '/settings/embedding'
+    | '/settings/llm'
+    | '/settings/memory'
+    | '/settings/trimming'
+    | '/users/$userId'
+    | '/workspaces/$workspaceId'
+    | '/backup/'
+    | '/settings/'
+    | '/users/'
+    | '/workspaces/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   ChatRoute: typeof ChatRoute
+  DepartmentsRoute: typeof DepartmentsRoute
   DocumentsRoute: typeof DocumentsRoute
   NotificationsRoute: typeof NotificationsRoute
+  PermissionsRoute: typeof PermissionsRoute
+  RolesRoute: typeof RolesRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
+  BackupHistoryRoute: typeof BackupHistoryRoute
+  BackupS3Route: typeof BackupS3Route
+  BackupSystemCheckRoute: typeof BackupSystemCheckRoute
+  BackupTenantsRoute: typeof BackupTenantsRoute
+  MonitoringEventsRoute: typeof MonitoringEventsRoute
+  MonitoringHealthRoute: typeof MonitoringHealthRoute
+  SettingsAgentRoute: typeof SettingsAgentRoute
+  SettingsCompressionRoute: typeof SettingsCompressionRoute
+  SettingsEmbeddingRoute: typeof SettingsEmbeddingRoute
+  SettingsLlmRoute: typeof SettingsLlmRoute
+  SettingsMemoryRoute: typeof SettingsMemoryRoute
+  SettingsTrimmingRoute: typeof SettingsTrimmingRoute
+  UsersUserIdRoute: typeof UsersUserIdRoute
+  WorkspacesWorkspaceIdRoute: typeof WorkspacesWorkspaceIdRoute
+  BackupIndexRoute: typeof BackupIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
+  UsersIndexRoute: typeof UsersIndexRoute
+  WorkspacesIndexRoute: typeof WorkspacesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/roles': {
+      id: '/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof RolesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/permissions': {
+      id: '/permissions'
+      path: '/permissions'
+      fullPath: '/permissions'
+      preLoaderRoute: typeof PermissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notifications': {
       id: '/notifications'
       path: '/notifications'
@@ -99,6 +422,13 @@ declare module '@tanstack/react-router' {
       path: '/documents'
       fullPath: '/documents'
       preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/departments': {
+      id: '/departments'
+      path: '/departments'
+      fullPath: '/departments'
+      preLoaderRoute: typeof DepartmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chat': {
@@ -122,6 +452,146 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/workspaces/': {
+      id: '/workspaces/'
+      path: '/workspaces'
+      fullPath: '/workspaces/'
+      preLoaderRoute: typeof WorkspacesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users/': {
+      id: '/users/'
+      path: '/users'
+      fullPath: '/users/'
+      preLoaderRoute: typeof UsersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backup/': {
+      id: '/backup/'
+      path: '/backup'
+      fullPath: '/backup/'
+      preLoaderRoute: typeof BackupIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workspaces/$workspaceId': {
+      id: '/workspaces/$workspaceId'
+      path: '/workspaces/$workspaceId'
+      fullPath: '/workspaces/$workspaceId'
+      preLoaderRoute: typeof WorkspacesWorkspaceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users/$userId': {
+      id: '/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof UsersUserIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/trimming': {
+      id: '/settings/trimming'
+      path: '/settings/trimming'
+      fullPath: '/settings/trimming'
+      preLoaderRoute: typeof SettingsTrimmingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/memory': {
+      id: '/settings/memory'
+      path: '/settings/memory'
+      fullPath: '/settings/memory'
+      preLoaderRoute: typeof SettingsMemoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/llm': {
+      id: '/settings/llm'
+      path: '/settings/llm'
+      fullPath: '/settings/llm'
+      preLoaderRoute: typeof SettingsLlmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/embedding': {
+      id: '/settings/embedding'
+      path: '/settings/embedding'
+      fullPath: '/settings/embedding'
+      preLoaderRoute: typeof SettingsEmbeddingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/compression': {
+      id: '/settings/compression'
+      path: '/settings/compression'
+      fullPath: '/settings/compression'
+      preLoaderRoute: typeof SettingsCompressionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/agent': {
+      id: '/settings/agent'
+      path: '/settings/agent'
+      fullPath: '/settings/agent'
+      preLoaderRoute: typeof SettingsAgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/monitoring/health': {
+      id: '/monitoring/health'
+      path: '/monitoring/health'
+      fullPath: '/monitoring/health'
+      preLoaderRoute: typeof MonitoringHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/monitoring/events': {
+      id: '/monitoring/events'
+      path: '/monitoring/events'
+      fullPath: '/monitoring/events'
+      preLoaderRoute: typeof MonitoringEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backup/tenants': {
+      id: '/backup/tenants'
+      path: '/backup/tenants'
+      fullPath: '/backup/tenants'
+      preLoaderRoute: typeof BackupTenantsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backup/system-check': {
+      id: '/backup/system-check'
+      path: '/backup/system-check'
+      fullPath: '/backup/system-check'
+      preLoaderRoute: typeof BackupSystemCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backup/s3': {
+      id: '/backup/s3'
+      path: '/backup/s3'
+      fullPath: '/backup/s3'
+      preLoaderRoute: typeof BackupS3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backup/history': {
+      id: '/backup/history'
+      path: '/backup/history'
+      fullPath: '/backup/history'
+      preLoaderRoute: typeof BackupHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -129,9 +599,42 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   ChatRoute: ChatRoute,
+  DepartmentsRoute: DepartmentsRoute,
   DocumentsRoute: DocumentsRoute,
   NotificationsRoute: NotificationsRoute,
+  PermissionsRoute: PermissionsRoute,
+  RolesRoute: RolesRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
+  BackupHistoryRoute: BackupHistoryRoute,
+  BackupS3Route: BackupS3Route,
+  BackupSystemCheckRoute: BackupSystemCheckRoute,
+  BackupTenantsRoute: BackupTenantsRoute,
+  MonitoringEventsRoute: MonitoringEventsRoute,
+  MonitoringHealthRoute: MonitoringHealthRoute,
+  SettingsAgentRoute: SettingsAgentRoute,
+  SettingsCompressionRoute: SettingsCompressionRoute,
+  SettingsEmbeddingRoute: SettingsEmbeddingRoute,
+  SettingsLlmRoute: SettingsLlmRoute,
+  SettingsMemoryRoute: SettingsMemoryRoute,
+  SettingsTrimmingRoute: SettingsTrimmingRoute,
+  UsersUserIdRoute: UsersUserIdRoute,
+  WorkspacesWorkspaceIdRoute: WorkspacesWorkspaceIdRoute,
+  BackupIndexRoute: BackupIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
+  UsersIndexRoute: UsersIndexRoute,
+  WorkspacesIndexRoute: WorkspacesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
