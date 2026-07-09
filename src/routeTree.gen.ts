@@ -14,6 +14,8 @@ import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRegisterRouteImport } from './routes/auth.register'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
 
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
@@ -40,6 +42,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +59,8 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +68,8 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +78,28 @@ export interface FileRoutesById {
   '/chat': typeof ChatRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analytics' | '/chat' | '/documents' | '/notifications'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/chat'
+    | '/documents'
+    | '/notifications'
+    | '/auth/login'
+    | '/auth/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analytics' | '/chat' | '/documents' | '/notifications'
+  to:
+    | '/'
+    | '/analytics'
+    | '/chat'
+    | '/documents'
+    | '/notifications'
+    | '/auth/login'
+    | '/auth/register'
   id:
     | '__root__'
     | '/'
@@ -75,6 +107,8 @@ export interface FileRouteTypes {
     | '/chat'
     | '/documents'
     | '/notifications'
+    | '/auth/login'
+    | '/auth/register'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,6 +117,8 @@ export interface RootRouteChildren {
   ChatRoute: typeof ChatRoute
   DocumentsRoute: typeof DocumentsRoute
   NotificationsRoute: typeof NotificationsRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -122,6 +158,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -131,6 +181,8 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRoute: ChatRoute,
   DocumentsRoute: DocumentsRoute,
   NotificationsRoute: NotificationsRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
