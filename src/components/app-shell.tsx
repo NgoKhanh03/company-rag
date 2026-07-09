@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
-import { Bell, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { NotificationsPopover } from "@/components/notifications-popover";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { Separator } from "@/components/ui/separator";
 
 export function AppShell({
   title,
@@ -33,16 +35,16 @@ export function AppShell({
                 />
               </div>
             </div>
-            <div className="ml-auto flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="relative">
-                <Bell className="h-4 w-4" />
-                <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-brand" />
-              </Button>
-              <div className="h-8 w-8 rounded-full bg-brand/20 text-brand flex items-center justify-center text-xs font-semibold">
+            <div className="ml-auto flex items-center gap-1">
+              <LanguageSwitcher />
+              <Separator orientation="vertical" className="mx-1 h-6" />
+              <NotificationsPopover />
+              <div className="ml-2 h-8 w-8 rounded-full bg-brand/20 text-brand flex items-center justify-center text-xs font-semibold">
                 MT
               </div>
             </div>
           </header>
+
 
           <div className="border-b border-border px-6 py-5 flex flex-wrap items-end justify-between gap-3">
             <div>
