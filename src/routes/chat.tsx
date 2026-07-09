@@ -102,7 +102,22 @@ function ChatPage() {
   const [messages, setMessages] = useState<Message[]>(initial);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
+  const [highlighted, setHighlighted] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<Record<number, "up" | "down">>({});
   const endRef = useRef<HTMLDivElement>(null);
+  const sourceRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const focusSource = (title: string) => {
+    setHighlighted(title);
+    sourceRefs.current[title]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => setHighlighted((h) => (h === title ? null : h)), 1600);
+  };
+
+  const regenerate = () => {
+    setThinking(true);
+    setTimeout(() => setThinking(false), 800);
+    toast.info("Đang tạo lại phản hồi…");
+  };
 
   // Reseed the demo transcript whenever the language changes so users see localized bubbles.
   useEffect(() => {
@@ -157,9 +172,14 @@ function ChatPage() {
       title={t("chat.title")}
       subtitle={t("chat.sub")}
       actions={
-        <Button variant="outline">
-          <Plus className="mr-1 h-4 w-4" /> {t("chat.new")}
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => toast.info("Đã sao chép link chia sẻ")}>
+            <Share2 className="mr-1 h-4 w-4" /> Chia sẻ
+          </Button>
+          <Button variant="outline" onClick={() => { setMessages([]); toast.success("Đã tạo hội thoại mới"); }}>
+            <Plus className="mr-1 h-4 w-4" /> {t("chat.new")}
+          </Button>
+        </div>
       }
     >
       <div className="grid gap-4 lg:grid-cols-[240px_1fr_320px] h-[calc(100vh-14rem)]">
