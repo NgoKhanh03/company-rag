@@ -6,6 +6,7 @@ import {
   BarChart3,
   Settings,
   Sparkles,
+  Bell,
 } from "lucide-react";
 
 import {
@@ -20,16 +21,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
-const nav = [
-  { title: "Tổng quan", url: "/", icon: LayoutDashboard },
-  { title: "Chat tài liệu", url: "/chat", icon: MessagesSquare },
-  { title: "Thư viện", url: "/documents", icon: Library },
-  { title: "Phân tích", url: "/analytics", icon: BarChart3 },
-];
+import { useT } from "@/lib/i18n";
 
 export function AppSidebar() {
+  const t = useT();
   const pathname = useRouterState({ select: (r) => r.location.pathname });
+
+  const nav = [
+    { title: t("nav.overview"), url: "/", icon: LayoutDashboard },
+    { title: t("nav.chat"), url: "/chat", icon: MessagesSquare },
+    { title: t("nav.library"), url: "/documents", icon: Library },
+    { title: t("nav.analytics"), url: "/analytics", icon: BarChart3 },
+    { title: t("notif.page_title"), url: "/notifications", icon: Bell },
+  ];
 
   return (
     <Sidebar collapsible="icon">
@@ -40,14 +44,16 @@ export function AppSidebar() {
           </div>
           <div className="flex flex-col leading-tight group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-semibold">Novadoc</span>
-            <span className="text-xs text-muted-foreground">RAG Workspace</span>
+            <span className="text-xs text-muted-foreground">
+              {t("brand.tagline")}
+            </span>
           </div>
         </div>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("nav.workspace")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {nav.map((item) => {
@@ -71,9 +77,9 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-sidebar-border">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Cài đặt">
+            <SidebarMenuButton tooltip={t("nav.settings")}>
               <Settings className="h-4 w-4" />
-              <span>Cài đặt</span>
+              <span>{t("nav.settings")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

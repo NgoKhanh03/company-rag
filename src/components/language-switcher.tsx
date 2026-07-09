@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Check, Globe } from "lucide-react";
 
 import {
@@ -10,22 +9,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-
-const languages = [
-  { code: "vi", label: "Tiếng Việt", flag: "🇻🇳", native: "Tiếng Việt" },
-  { code: "en", label: "English", flag: "🇬🇧", native: "English" },
-  { code: "ja", label: "Japanese", flag: "🇯🇵", native: "日本語" },
-  { code: "ko", label: "Korean", flag: "🇰🇷", native: "한국어" },
-  { code: "zh", label: "Chinese", flag: "🇨🇳", native: "中文" },
-  { code: "ru", label: "Russian", flag: "🇷🇺", native: "Русский" },
-  { code: "uk", label: "Ukrainian", flag: "🇺🇦", native: "Українська" },
-  { code: "id", label: "Indonesian", flag: "🇮🇩", native: "Bahasa Indonesia" },
-  { code: "ar", label: "Arabic", flag: "🇸🇦", native: "العربية" },
-];
+import { LANGUAGES, useI18n } from "@/lib/i18n";
 
 export function LanguageSwitcher() {
-  const [current, setCurrent] = useState("vi");
-  const active = languages.find((l) => l.code === current) ?? languages[0];
+  const { lang, setLang, t } = useI18n();
+  const active = LANGUAGES.find((l) => l.code === lang) ?? LANGUAGES[0];
 
   return (
     <DropdownMenu>
@@ -40,13 +28,13 @@ export function LanguageSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">
-          Ngôn ngữ giao diện
+          {t("lang.label")}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {languages.map((l) => (
+        {LANGUAGES.map((l) => (
           <DropdownMenuItem
             key={l.code}
-            onClick={() => setCurrent(l.code)}
+            onClick={() => setLang(l.code)}
             className="gap-2 cursor-pointer"
           >
             <span className="text-lg leading-none">{l.flag}</span>
@@ -54,7 +42,7 @@ export function LanguageSwitcher() {
               <span className="text-sm">{l.native}</span>
               <span className="text-[10px] text-muted-foreground">{l.label}</span>
             </div>
-            {current === l.code && <Check className="h-3.5 w-3.5 text-brand" />}
+            {lang === l.code && <Check className="h-3.5 w-3.5 text-brand" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
