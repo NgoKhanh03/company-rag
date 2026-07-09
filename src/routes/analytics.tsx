@@ -17,27 +17,11 @@ import {
 
 import { AppShell } from "@/components/app-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/analytics")({
   component: AnalyticsPage,
 });
-
-const monthly = [
-  { m: "T7", queries: 1420, users: 92 },
-  { m: "T8", queries: 1810, users: 108 },
-  { m: "T9", queries: 2140, users: 129 },
-  { m: "T10", queries: 2680, users: 151 },
-  { m: "T11", queries: 3120, users: 168 },
-  { m: "T12", queries: 3540, users: 184 },
-];
-
-const categories = [
-  { name: "Nhân sự", value: 34 },
-  { name: "Kỹ thuật", value: 28 },
-  { name: "Tài chính", value: 18 },
-  { name: "Bảo mật", value: 12 },
-  { name: "Khác", value: 8 },
-];
 
 const COLORS = [
   "var(--chart-1)",
@@ -47,24 +31,40 @@ const COLORS = [
   "var(--chart-5)",
 ];
 
-const topDocs = [
-  { name: "HR-Policy-v3.2.pdf", hits: 412 },
-  { name: "InfoSec-Standard.pdf", hits: 318 },
-  { name: "Finance-SOP-2026.docx", hits: 264 },
-  { name: "API-Reference.md", hits: 231 },
-  { name: "Onboarding-Guide.pdf", hits: 187 },
-];
-
 function AnalyticsPage() {
+  const t = useT();
+
+  const monthly = [
+    { m: "M1", queries: 1420, users: 92 },
+    { m: "M2", queries: 1810, users: 108 },
+    { m: "M3", queries: 2140, users: 129 },
+    { m: "M4", queries: 2680, users: 151 },
+    { m: "M5", queries: 3120, users: 168 },
+    { m: "M6", queries: 3540, users: 184 },
+  ];
+
+  const categories = [
+    { name: t("an.cat.hr"), value: 34 },
+    { name: t("an.cat.tech"), value: 28 },
+    { name: t("an.cat.finance"), value: 18 },
+    { name: t("an.cat.sec"), value: 12 },
+    { name: t("an.cat.other"), value: 8 },
+  ];
+
+  const topDocs = [
+    { name: "HR-Policy-v3.2.pdf", hits: 412 },
+    { name: "InfoSec-Standard.pdf", hits: 318 },
+    { name: "Finance-SOP-2026.docx", hits: 264 },
+    { name: "API-Reference.md", hits: 231 },
+    { name: "Onboarding-Guide.pdf", hits: 187 },
+  ];
+
   return (
-    <AppShell
-      title="Phân tích"
-      subtitle="Insight về cách đội ngũ sử dụng thư viện tri thức"
-    >
+    <AppShell title={t("an.title")} subtitle={t("an.sub")}>
       <div className="grid gap-4 lg:grid-cols-2">
         <Card className="bg-card border-border">
           <CardHeader>
-            <CardTitle>Tăng trưởng 6 tháng</CardTitle>
+            <CardTitle>{t("an.growth")}</CardTitle>
           </CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
@@ -86,7 +86,7 @@ function AnalyticsPage() {
                   stroke="var(--brand)"
                   strokeWidth={2}
                   dot={false}
-                  name="Câu hỏi"
+                  name={t("an.queries")}
                 />
                 <Line
                   type="monotone"
@@ -94,7 +94,7 @@ function AnalyticsPage() {
                   stroke="var(--chart-2)"
                   strokeWidth={2}
                   dot={false}
-                  name="Người dùng"
+                  name={t("an.users")}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -103,7 +103,7 @@ function AnalyticsPage() {
 
         <Card className="bg-card border-border">
           <CardHeader>
-            <CardTitle>Phân bổ chủ đề tra cứu</CardTitle>
+            <CardTitle>{t("an.dist")}</CardTitle>
           </CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
@@ -135,7 +135,7 @@ function AnalyticsPage() {
 
         <Card className="bg-card border-border lg:col-span-2">
           <CardHeader>
-            <CardTitle>Tài liệu được truy vấn nhiều nhất</CardTitle>
+            <CardTitle>{t("an.top")}</CardTitle>
           </CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
