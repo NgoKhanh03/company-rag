@@ -28,6 +28,8 @@ import { Route as SettingsLlmRouteImport } from './routes/settings.llm'
 import { Route as SettingsEmbeddingRouteImport } from './routes/settings.embedding'
 import { Route as SettingsCompressionRouteImport } from './routes/settings.compression'
 import { Route as SettingsAgentRouteImport } from './routes/settings.agent'
+import { Route as MonitoringHealthRouteImport } from './routes/monitoring.health'
+import { Route as MonitoringEventsRouteImport } from './routes/monitoring.events'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 
@@ -126,6 +128,16 @@ const SettingsAgentRoute = SettingsAgentRouteImport.update({
   path: '/settings/agent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MonitoringHealthRoute = MonitoringHealthRouteImport.update({
+  id: '/monitoring/health',
+  path: '/monitoring/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MonitoringEventsRoute = MonitoringEventsRouteImport.update({
+  id: '/monitoring/events',
+  path: '/monitoring/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
   path: '/auth/register',
@@ -150,6 +162,8 @@ export interface FileRoutesByFullPath {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/monitoring/events': typeof MonitoringEventsRoute
+  '/monitoring/health': typeof MonitoringHealthRoute
   '/settings/agent': typeof SettingsAgentRoute
   '/settings/compression': typeof SettingsCompressionRoute
   '/settings/embedding': typeof SettingsEmbeddingRoute
@@ -173,6 +187,8 @@ export interface FileRoutesByTo {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/monitoring/events': typeof MonitoringEventsRoute
+  '/monitoring/health': typeof MonitoringHealthRoute
   '/settings/agent': typeof SettingsAgentRoute
   '/settings/compression': typeof SettingsCompressionRoute
   '/settings/embedding': typeof SettingsEmbeddingRoute
@@ -197,6 +213,8 @@ export interface FileRoutesById {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/monitoring/events': typeof MonitoringEventsRoute
+  '/monitoring/health': typeof MonitoringHealthRoute
   '/settings/agent': typeof SettingsAgentRoute
   '/settings/compression': typeof SettingsCompressionRoute
   '/settings/embedding': typeof SettingsEmbeddingRoute
@@ -222,6 +240,8 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/monitoring/events'
+    | '/monitoring/health'
     | '/settings/agent'
     | '/settings/compression'
     | '/settings/embedding'
@@ -245,6 +265,8 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/monitoring/events'
+    | '/monitoring/health'
     | '/settings/agent'
     | '/settings/compression'
     | '/settings/embedding'
@@ -268,6 +290,8 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/monitoring/events'
+    | '/monitoring/health'
     | '/settings/agent'
     | '/settings/compression'
     | '/settings/embedding'
@@ -292,6 +316,8 @@ export interface RootRouteChildren {
   WorkspacesRoute: typeof WorkspacesRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  MonitoringEventsRoute: typeof MonitoringEventsRoute
+  MonitoringHealthRoute: typeof MonitoringHealthRoute
   SettingsAgentRoute: typeof SettingsAgentRoute
   SettingsCompressionRoute: typeof SettingsCompressionRoute
   SettingsEmbeddingRoute: typeof SettingsEmbeddingRoute
@@ -436,6 +462,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsAgentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/monitoring/health': {
+      id: '/monitoring/health'
+      path: '/monitoring/health'
+      fullPath: '/monitoring/health'
+      preLoaderRoute: typeof MonitoringHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/monitoring/events': {
+      id: '/monitoring/events'
+      path: '/monitoring/events'
+      fullPath: '/monitoring/events'
+      preLoaderRoute: typeof MonitoringEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/register': {
       id: '/auth/register'
       path: '/auth/register'
@@ -488,6 +528,8 @@ const rootRouteChildren: RootRouteChildren = {
   WorkspacesRoute: WorkspacesRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  MonitoringEventsRoute: MonitoringEventsRoute,
+  MonitoringHealthRoute: MonitoringHealthRoute,
   SettingsAgentRoute: SettingsAgentRoute,
   SettingsCompressionRoute: SettingsCompressionRoute,
   SettingsEmbeddingRoute: SettingsEmbeddingRoute,
