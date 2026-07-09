@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { ChevronRight } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
@@ -65,8 +65,8 @@ function PermsPage() {
               </TableHeader>
               <TableBody>
                 {GROUPS.map((g) => (
-                  <>
-                    <TableRow key={g.name} className="bg-muted/30">
+                  <Fragment key={g.name}>
+                    <TableRow className="bg-muted/30">
                       <TableCell colSpan={ROLES.length+1} className="font-semibold text-xs uppercase tracking-wide text-muted-foreground">
                         {g.name}
                       </TableCell>
@@ -81,7 +81,7 @@ function PermsPage() {
                         ))}
                       </TableRow>
                     ))}
-                  </>
+                  </Fragment>
                 ))}
               </TableBody>
             </Table>

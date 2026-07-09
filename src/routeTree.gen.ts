@@ -9,14 +9,41 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkspacesRouteImport } from './routes/workspaces'
+import { Route as UsersRouteImport } from './routes/users'
+import { Route as RolesRouteImport } from './routes/roles'
+import { Route as PermissionsRouteImport } from './routes/permissions'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as DepartmentsRouteImport } from './routes/departments'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WorkspacesWorkspaceIdRouteImport } from './routes/workspaces.$workspaceId'
+import { Route as UsersUserIdRouteImport } from './routes/users.$userId'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 
+const WorkspacesRoute = WorkspacesRouteImport.update({
+  id: '/workspaces',
+  path: '/workspaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RolesRoute = RolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PermissionsRoute = PermissionsRouteImport.update({
+  id: '/permissions',
+  path: '/permissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
@@ -25,6 +52,11 @@ const NotificationsRoute = NotificationsRouteImport.update({
 const DocumentsRoute = DocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DepartmentsRoute = DepartmentsRouteImport.update({
+  id: '/departments',
+  path: '/departments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChatRoute = ChatRouteImport.update({
@@ -42,6 +74,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkspacesWorkspaceIdRoute = WorkspacesWorkspaceIdRouteImport.update({
+  id: '/$workspaceId',
+  path: '/$workspaceId',
+  getParentRoute: () => WorkspacesRoute,
+} as any)
+const UsersUserIdRoute = UsersUserIdRouteImport.update({
+  id: '/$userId',
+  path: '/$userId',
+  getParentRoute: () => UsersRoute,
+} as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
   path: '/auth/register',
@@ -57,29 +99,50 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/chat': typeof ChatRoute
+  '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/permissions': typeof PermissionsRoute
+  '/roles': typeof RolesRoute
+  '/users': typeof UsersRouteWithChildren
+  '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/users/$userId': typeof UsersUserIdRoute
+  '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/chat': typeof ChatRoute
+  '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/permissions': typeof PermissionsRoute
+  '/roles': typeof RolesRoute
+  '/users': typeof UsersRouteWithChildren
+  '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/users/$userId': typeof UsersUserIdRoute
+  '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/chat': typeof ChatRoute
+  '/departments': typeof DepartmentsRoute
   '/documents': typeof DocumentsRoute
   '/notifications': typeof NotificationsRoute
+  '/permissions': typeof PermissionsRoute
+  '/roles': typeof RolesRoute
+  '/users': typeof UsersRouteWithChildren
+  '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/users/$userId': typeof UsersUserIdRoute
+  '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,42 +150,96 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/chat'
+    | '/departments'
     | '/documents'
     | '/notifications'
+    | '/permissions'
+    | '/roles'
+    | '/users'
+    | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/users/$userId'
+    | '/workspaces/$workspaceId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/analytics'
     | '/chat'
+    | '/departments'
     | '/documents'
     | '/notifications'
+    | '/permissions'
+    | '/roles'
+    | '/users'
+    | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/users/$userId'
+    | '/workspaces/$workspaceId'
   id:
     | '__root__'
     | '/'
     | '/analytics'
     | '/chat'
+    | '/departments'
     | '/documents'
     | '/notifications'
+    | '/permissions'
+    | '/roles'
+    | '/users'
+    | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/users/$userId'
+    | '/workspaces/$workspaceId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   ChatRoute: typeof ChatRoute
+  DepartmentsRoute: typeof DepartmentsRoute
   DocumentsRoute: typeof DocumentsRoute
   NotificationsRoute: typeof NotificationsRoute
+  PermissionsRoute: typeof PermissionsRoute
+  RolesRoute: typeof RolesRoute
+  UsersRoute: typeof UsersRouteWithChildren
+  WorkspacesRoute: typeof WorkspacesRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/workspaces': {
+      id: '/workspaces'
+      path: '/workspaces'
+      fullPath: '/workspaces'
+      preLoaderRoute: typeof WorkspacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roles': {
+      id: '/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof RolesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/permissions': {
+      id: '/permissions'
+      path: '/permissions'
+      fullPath: '/permissions'
+      preLoaderRoute: typeof PermissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notifications': {
       id: '/notifications'
       path: '/notifications'
@@ -135,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/documents'
       fullPath: '/documents'
       preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/departments': {
+      id: '/departments'
+      path: '/departments'
+      fullPath: '/departments'
+      preLoaderRoute: typeof DepartmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chat': {
@@ -158,6 +282,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/workspaces/$workspaceId': {
+      id: '/workspaces/$workspaceId'
+      path: '/$workspaceId'
+      fullPath: '/workspaces/$workspaceId'
+      preLoaderRoute: typeof WorkspacesWorkspaceIdRouteImport
+      parentRoute: typeof WorkspacesRoute
+    }
+    '/users/$userId': {
+      id: '/users/$userId'
+      path: '/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof UsersUserIdRouteImport
+      parentRoute: typeof UsersRoute
+    }
     '/auth/register': {
       id: '/auth/register'
       path: '/auth/register'
@@ -175,12 +313,39 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface UsersRouteChildren {
+  UsersUserIdRoute: typeof UsersUserIdRoute
+}
+
+const UsersRouteChildren: UsersRouteChildren = {
+  UsersUserIdRoute: UsersUserIdRoute,
+}
+
+const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
+
+interface WorkspacesRouteChildren {
+  WorkspacesWorkspaceIdRoute: typeof WorkspacesWorkspaceIdRoute
+}
+
+const WorkspacesRouteChildren: WorkspacesRouteChildren = {
+  WorkspacesWorkspaceIdRoute: WorkspacesWorkspaceIdRoute,
+}
+
+const WorkspacesRouteWithChildren = WorkspacesRoute._addFileChildren(
+  WorkspacesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   ChatRoute: ChatRoute,
+  DepartmentsRoute: DepartmentsRoute,
   DocumentsRoute: DocumentsRoute,
   NotificationsRoute: NotificationsRoute,
+  PermissionsRoute: PermissionsRoute,
+  RolesRoute: RolesRoute,
+  UsersRoute: UsersRouteWithChildren,
+  WorkspacesRoute: WorkspacesRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
 }
