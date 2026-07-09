@@ -215,7 +215,17 @@ function ChatPage() {
           <ScrollArea className="flex-1 px-6 py-4">
             <div className="space-y-6 max-w-3xl mx-auto">
               {messages.map((m, i) => (
-                <MessageBubble key={i} message={m} />
+                <MessageBubble
+                  key={i}
+                  message={m}
+                  onCitationClick={focusSource}
+                  onRegenerate={regenerate}
+                  feedback={feedback[i]}
+                  onFeedback={(v) => {
+                    setFeedback((f) => ({ ...f, [i]: v }));
+                    toast.success(v === "up" ? "Cảm ơn phản hồi 👍" : "Đã ghi nhận, sẽ cải thiện 👎");
+                  }}
+                />
               ))}
               {thinking && (
                 <div className="flex gap-3">
