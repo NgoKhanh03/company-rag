@@ -6,10 +6,11 @@ import {
   FileCode,
   Search,
   Filter,
-  MoreHorizontal,
   CheckCircle2,
   Loader2,
 } from "lucide-react";
+
+import { DocumentActions } from "@/components/document-actions";
 
 import { AppShell } from "@/components/app-shell";
 import { UploadDocumentDialog } from "@/components/upload-document-dialog";
@@ -213,9 +214,7 @@ function DocumentsPage() {
                     )}
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="icon">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
+                    <DocumentActions doc={{ name: d.name, type: d.type, size: d.size, chunks: d.chunks }} />
                   </TableCell>
                 </TableRow>
               );

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { NotificationsPopover } from "@/components/notifications-popover";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { WorkspaceSwitcher } from "@/components/workspace-switcher";
+import { UserMenu } from "@/components/user-menu";
 import { Separator } from "@/components/ui/separator";
 import { useT } from "@/lib/i18n";
 
@@ -43,9 +44,7 @@ export function AppShell({
               <LanguageSwitcher />
               <Separator orientation="vertical" className="mx-1 h-6" />
               <NotificationsPopover />
-              <div className="ml-2 h-8 w-8 rounded-full bg-brand/20 text-brand flex items-center justify-center text-xs font-semibold">
-                MT
-              </div>
+              <UserMenu />
             </div>
           </header>
 
