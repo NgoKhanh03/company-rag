@@ -8,7 +8,17 @@ import {
   ExternalLink,
   BookOpen,
   MessageSquare,
+  Copy,
+  RefreshCw,
+  ThumbsUp,
+  ThumbsDown,
+  Volume2,
+  Paperclip,
+  Mic,
+  Trash2,
+  Share2,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
@@ -16,6 +26,12 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/chat")({
@@ -86,7 +102,22 @@ function ChatPage() {
   const [messages, setMessages] = useState<Message[]>(initial);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
+  const [highlighted, setHighlighted] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<Record<number, "up" | "down">>({});
   const endRef = useRef<HTMLDivElement>(null);
+  const sourceRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const focusSource = (title: string) => {
+    setHighlighted(title);
+    sourceRefs.current[title]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => setHighlighted((h) => (h === title ? null : h)), 1600);
+  };
+
+  const regenerate = () => {
+    setThinking(true);
+    setTimeout(() => setThinking(false), 800);
+    toast.info("Đang tạo lại phản hồi…");
+  };
 
   // Reseed the demo transcript whenever the language changes so users see localized bubbles.
   useEffect(() => {
@@ -141,9 +172,14 @@ function ChatPage() {
       title={t("chat.title")}
       subtitle={t("chat.sub")}
       actions={
-        <Button variant="outline">
-          <Plus className="mr-1 h-4 w-4" /> {t("chat.new")}
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => toast.info("Đã sao chép link chia sẻ")}>
+            <Share2 className="mr-1 h-4 w-4" /> Chia sẻ
+          </Button>
+          <Button variant="outline" onClick={() => { setMessages([]); toast.success("Đã tạo hội thoại mới"); }}>
+            <Plus className="mr-1 h-4 w-4" /> {t("chat.new")}
+          </Button>
+        </div>
       }
     >
       <div className="grid gap-4 lg:grid-cols-[240px_1fr_320px] h-[calc(100vh-14rem)]">
@@ -179,7 +215,17 @@ function ChatPage() {
           <ScrollArea className="flex-1 px-6 py-4">
             <div className="space-y-6 max-w-3xl mx-auto">
               {messages.map((m, i) => (
-                <MessageBubble key={i} message={m} />
+                <MessageBubble
+                  key={i}
+                  message={m}
+                  onCitationClick={focusSource}
+                  onRegenerate={regenerate}
+                  feedback={feedback[i]}
+                  onFeedback={(v) => {
+                    setFeedback((f) => ({ ...f, [i]: v }));
+                    toast.success(v === "up" ? "Cảm ơn phản hồi 👍" : "Đã ghi nhận, sẽ cải thiện 👎");
+                  }}
+                />
               ))}
               {thinking && (
                 <div className="flex gap-3">
@@ -226,8 +272,28 @@ function ChatPage() {
                     }
                   }}
                   placeholder={t("chat.input")}
-                  className="min-h-[68px] resize-none bg-background border-border pe-14"
+                  className="min-h-[84px] resize-none bg-background border-border pe-14 ps-3 pt-3 pb-10"
                 />
+                <div className="absolute left-2 bottom-2 flex items-center gap-1">
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => toast.info("Đính kèm file (demo)")}>
+                          <Paperclip className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Đính kèm file</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => toast.info("Ghi âm (demo)")}>
+                          <Mic className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Nhập bằng giọng nói</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <Button
                   size="icon"
                   onClick={() => send()}
@@ -257,17 +323,31 @@ function ChatPage() {
               {activeSources.map((s, i) => (
                 <div
                   key={i}
-                  className="p-3 rounded-lg border border-border bg-background/40 hover:bg-background transition-colors"
+                  ref={(el) => { sourceRefs.current[s.title] = el; }}
+                  className={`p-3 rounded-lg border transition-all ${
+                    highlighted === s.title
+                      ? "border-brand bg-brand/10 ring-2 ring-brand/40"
+                      : "border-border bg-background/40 hover:bg-background"
+                  }`}
                 >
                   <div className="flex items-start gap-2">
-                    <FileText className="h-4 w-4 text-brand mt-0.5 shrink-0" />
+                    <div className="h-5 w-5 rounded bg-brand/15 text-brand flex items-center justify-center text-[10px] font-semibold shrink-0">
+                      {i + 1}
+                    </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-sm font-medium truncate">{s.title}</div>
+                      <div className="text-sm font-medium truncate flex items-center gap-1">
+                        <FileText className="h-3.5 w-3.5 text-brand shrink-0" />
+                        {s.title}
+                      </div>
                       <div className="text-[11px] text-muted-foreground">
                         {s.page} · {t("chat.match")} {Math.round(s.score * 100)}%
                       </div>
                     </div>
-                    <button className="text-muted-foreground hover:text-foreground">
+                    <button
+                      className="text-muted-foreground hover:text-foreground"
+                      onClick={() => toast.info(`Mở "${s.title}" (demo)`)}
+                      aria-label="Mở tài liệu"
+                    >
                       <ExternalLink className="h-3.5 w-3.5" />
                     </button>
                   </div>
@@ -289,8 +369,24 @@ function ChatPage() {
   );
 }
 
-function MessageBubble({ message }: { message: Message }) {
+function MessageBubble({
+  message,
+  onCitationClick,
+  onRegenerate,
+  feedback,
+  onFeedback,
+}: {
+  message: Message;
+  onCitationClick?: (title: string) => void;
+  onRegenerate?: () => void;
+  feedback?: "up" | "down";
+  onFeedback?: (v: "up" | "down") => void;
+}) {
   const isUser = message.role === "user";
+  const copy = () => {
+    navigator.clipboard.writeText(message.content);
+    toast.success("Đã sao chép");
+  };
   return (
     <div className={`flex gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
       <div
@@ -300,7 +396,7 @@ function MessageBubble({ message }: { message: Message }) {
       >
         {isUser ? "MT" : <Sparkles className="h-4 w-4" />}
       </div>
-      <div className={`min-w-0 max-w-[85%] ${isUser ? "text-right" : ""}`}>
+      <div className={`min-w-0 max-w-[85%] group ${isUser ? "text-right" : ""}`}>
         <div
           className={`inline-block text-left rounded-2xl px-4 py-3 text-sm whitespace-pre-wrap leading-relaxed ${
             isUser
@@ -309,19 +405,77 @@ function MessageBubble({ message }: { message: Message }) {
           }`}
         >
           {message.content}
+          {!isUser && message.sources && message.sources.length > 0 && (
+            <span className="ms-1 inline-flex gap-1 align-middle">
+              {message.sources.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => onCitationClick?.(s.title)}
+                  className="inline-flex h-4 min-w-[16px] items-center justify-center rounded bg-brand/20 px-1 text-[10px] font-semibold text-brand hover:bg-brand/30 transition"
+                  title={s.title}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </span>
+          )}
         </div>
         {message.sources && message.sources.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1.5">
             {message.sources.map((s, i) => (
-              <Badge
+              <button
                 key={i}
-                variant="outline"
-                className="text-[10px] font-normal border-border text-muted-foreground"
+                onClick={() => onCitationClick?.(s.title)}
+                className="inline-flex items-center gap-1 rounded-md border border-border bg-background/60 px-2 py-0.5 text-[10px] text-muted-foreground hover:text-foreground hover:border-brand/50 transition"
               >
-                <FileText className="h-3 w-3 me-1" />
+                <FileText className="h-3 w-3" />
                 {s.title}
-              </Badge>
+              </button>
             ))}
+          </div>
+        )}
+        {!isUser && (
+          <div className="mt-1.5 flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={copy}>
+              <Copy className="h-3.5 w-3.5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onRegenerate}>
+              <RefreshCw className="h-3.5 w-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => toast.info("Đang phát âm thanh (demo)")}
+            >
+              <Volume2 className="h-3.5 w-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`h-7 w-7 ${feedback === "up" ? "text-emerald-400" : ""}`}
+              onClick={() => onFeedback?.("up")}
+            >
+              <ThumbsUp className="h-3.5 w-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`h-7 w-7 ${feedback === "down" ? "text-red-400" : ""}`}
+              onClick={() => onFeedback?.("down")}
+            >
+              <ThumbsDown className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+        )}
+        {isUser && (
+          <div className="mt-1 flex items-center gap-0.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={copy}>
+              <Copy className="h-3.5 w-3.5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => toast.info("Sửa tin nhắn (demo)")}>
+              <Trash2 className="h-3.5 w-3.5" />
+            </Button>
           </div>
         )}
       </div>
