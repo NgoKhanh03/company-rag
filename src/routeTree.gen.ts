@@ -19,8 +19,15 @@ import { Route as DepartmentsRouteImport } from './routes/departments'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings.index'
 import { Route as WorkspacesWorkspaceIdRouteImport } from './routes/workspaces.$workspaceId'
 import { Route as UsersUserIdRouteImport } from './routes/users.$userId'
+import { Route as SettingsTrimmingRouteImport } from './routes/settings.trimming'
+import { Route as SettingsMemoryRouteImport } from './routes/settings.memory'
+import { Route as SettingsLlmRouteImport } from './routes/settings.llm'
+import { Route as SettingsEmbeddingRouteImport } from './routes/settings.embedding'
+import { Route as SettingsCompressionRouteImport } from './routes/settings.compression'
+import { Route as SettingsAgentRouteImport } from './routes/settings.agent'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 
@@ -74,6 +81,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WorkspacesWorkspaceIdRoute = WorkspacesWorkspaceIdRouteImport.update({
   id: '/$workspaceId',
   path: '/$workspaceId',
@@ -83,6 +95,36 @@ const UsersUserIdRoute = UsersUserIdRouteImport.update({
   id: '/$userId',
   path: '/$userId',
   getParentRoute: () => UsersRoute,
+} as any)
+const SettingsTrimmingRoute = SettingsTrimmingRouteImport.update({
+  id: '/settings/trimming',
+  path: '/settings/trimming',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsMemoryRoute = SettingsMemoryRouteImport.update({
+  id: '/settings/memory',
+  path: '/settings/memory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsLlmRoute = SettingsLlmRouteImport.update({
+  id: '/settings/llm',
+  path: '/settings/llm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsEmbeddingRoute = SettingsEmbeddingRouteImport.update({
+  id: '/settings/embedding',
+  path: '/settings/embedding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsCompressionRoute = SettingsCompressionRouteImport.update({
+  id: '/settings/compression',
+  path: '/settings/compression',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsAgentRoute = SettingsAgentRouteImport.update({
+  id: '/settings/agent',
+  path: '/settings/agent',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
@@ -108,8 +150,15 @@ export interface FileRoutesByFullPath {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/settings/agent': typeof SettingsAgentRoute
+  '/settings/compression': typeof SettingsCompressionRoute
+  '/settings/embedding': typeof SettingsEmbeddingRoute
+  '/settings/llm': typeof SettingsLlmRoute
+  '/settings/memory': typeof SettingsMemoryRoute
+  '/settings/trimming': typeof SettingsTrimmingRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -124,8 +173,15 @@ export interface FileRoutesByTo {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/settings/agent': typeof SettingsAgentRoute
+  '/settings/compression': typeof SettingsCompressionRoute
+  '/settings/embedding': typeof SettingsEmbeddingRoute
+  '/settings/llm': typeof SettingsLlmRoute
+  '/settings/memory': typeof SettingsMemoryRoute
+  '/settings/trimming': typeof SettingsTrimmingRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -141,8 +197,15 @@ export interface FileRoutesById {
   '/workspaces': typeof WorkspacesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/settings/agent': typeof SettingsAgentRoute
+  '/settings/compression': typeof SettingsCompressionRoute
+  '/settings/embedding': typeof SettingsEmbeddingRoute
+  '/settings/llm': typeof SettingsLlmRoute
+  '/settings/memory': typeof SettingsMemoryRoute
+  '/settings/trimming': typeof SettingsTrimmingRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/workspaces/$workspaceId': typeof WorkspacesWorkspaceIdRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -159,8 +222,15 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/settings/agent'
+    | '/settings/compression'
+    | '/settings/embedding'
+    | '/settings/llm'
+    | '/settings/memory'
+    | '/settings/trimming'
     | '/users/$userId'
     | '/workspaces/$workspaceId'
+    | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -175,8 +245,15 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/settings/agent'
+    | '/settings/compression'
+    | '/settings/embedding'
+    | '/settings/llm'
+    | '/settings/memory'
+    | '/settings/trimming'
     | '/users/$userId'
     | '/workspaces/$workspaceId'
+    | '/settings'
   id:
     | '__root__'
     | '/'
@@ -191,8 +268,15 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/auth/login'
     | '/auth/register'
+    | '/settings/agent'
+    | '/settings/compression'
+    | '/settings/embedding'
+    | '/settings/llm'
+    | '/settings/memory'
+    | '/settings/trimming'
     | '/users/$userId'
     | '/workspaces/$workspaceId'
+    | '/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -208,6 +292,13 @@ export interface RootRouteChildren {
   WorkspacesRoute: typeof WorkspacesRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  SettingsAgentRoute: typeof SettingsAgentRoute
+  SettingsCompressionRoute: typeof SettingsCompressionRoute
+  SettingsEmbeddingRoute: typeof SettingsEmbeddingRoute
+  SettingsLlmRoute: typeof SettingsLlmRoute
+  SettingsMemoryRoute: typeof SettingsMemoryRoute
+  SettingsTrimmingRoute: typeof SettingsTrimmingRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -282,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/workspaces/$workspaceId': {
       id: '/workspaces/$workspaceId'
       path: '/$workspaceId'
@@ -295,6 +393,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/users/$userId'
       preLoaderRoute: typeof UsersUserIdRouteImport
       parentRoute: typeof UsersRoute
+    }
+    '/settings/trimming': {
+      id: '/settings/trimming'
+      path: '/settings/trimming'
+      fullPath: '/settings/trimming'
+      preLoaderRoute: typeof SettingsTrimmingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/memory': {
+      id: '/settings/memory'
+      path: '/settings/memory'
+      fullPath: '/settings/memory'
+      preLoaderRoute: typeof SettingsMemoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/llm': {
+      id: '/settings/llm'
+      path: '/settings/llm'
+      fullPath: '/settings/llm'
+      preLoaderRoute: typeof SettingsLlmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/embedding': {
+      id: '/settings/embedding'
+      path: '/settings/embedding'
+      fullPath: '/settings/embedding'
+      preLoaderRoute: typeof SettingsEmbeddingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/compression': {
+      id: '/settings/compression'
+      path: '/settings/compression'
+      fullPath: '/settings/compression'
+      preLoaderRoute: typeof SettingsCompressionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/agent': {
+      id: '/settings/agent'
+      path: '/settings/agent'
+      fullPath: '/settings/agent'
+      preLoaderRoute: typeof SettingsAgentRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
       id: '/auth/register'
@@ -348,6 +488,13 @@ const rootRouteChildren: RootRouteChildren = {
   WorkspacesRoute: WorkspacesRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  SettingsAgentRoute: SettingsAgentRoute,
+  SettingsCompressionRoute: SettingsCompressionRoute,
+  SettingsEmbeddingRoute: SettingsEmbeddingRoute,
+  SettingsLlmRoute: SettingsLlmRoute,
+  SettingsMemoryRoute: SettingsMemoryRoute,
+  SettingsTrimmingRoute: SettingsTrimmingRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
