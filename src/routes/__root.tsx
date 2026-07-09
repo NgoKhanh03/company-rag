@@ -77,14 +77,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Novadoc — RAG Workspace cho tài liệu doanh nghiệp" },
+      {
+        name: "description",
+        content:
+          "Dashboard SaaS phân tích thư viện tài liệu và chat RAG nội bộ giúp đội ngũ tra cứu tri thức trong vài giây.",
+      },
+      { property: "og:title", content: "Novadoc — RAG Workspace" },
+      {
+        property: "og:description",
+        content: "Chat với thư viện tài liệu công ty. Phân tích sử dụng theo thời gian thực.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
