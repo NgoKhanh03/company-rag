@@ -31,7 +31,7 @@ export function SettingsLayout({ title, children }: { title: string; children: R
               return (
                 <Link
                   key={n.to}
-                  to={n.to}
+                  to={n.to as "/settings"}
                   className={cn(
                     "flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
                     active ? "bg-brand/15 text-brand" : "hover:bg-accent/40 text-foreground",
