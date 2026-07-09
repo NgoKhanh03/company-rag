@@ -21,10 +21,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useT } from "@/lib/i18n";
+import { useI18n, useT } from "@/lib/i18n";
 
 export function AppSidebar() {
   const t = useT();
+  const { dir } = useI18n();
   const pathname = useRouterState({ select: (r) => r.location.pathname });
 
   const nav = [
@@ -36,7 +37,8 @@ export function AppSidebar() {
   ];
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" side={dir === "rtl" ? "right" : "left"}>
+
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-brand-foreground">
